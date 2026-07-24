@@ -106,43 +106,43 @@ const S=app.listen(P,'0.0.0.0',()=>{
 });
 
 // ==========================================================
+
+// ==========================================================
 // 🛡️ TRATAMENTO DE ERROS
 // ==========================================================
-process.on('uncaughtException',e=>log('SISTEMA','❌',e.message,'','ERRO'));
-process.on('unhandledRejection',e=>log('SISTEMA','❌ Promise',e.message,'','ERRO'));
-process.on('SIGINT',()=>{console.log('\n👋 Desligando...');S.close();bot.destroy();process.exit(0);});
+process.on('uncaughtException', e => log('SISTEMA','❌', e.message,'','ERRO'));
+process.on('unhandledRejection', e => log('SISTEMA','❌ Promise', e.message,'','ERRO'));
+process.on('SIGINT', () => {
+  console.log('\n👋 Desligando...');
+  S.close();
+  bot.destroy();
+  process.exit(0);
+});
 
 // ==========================================================
-// 📤 EXPORTA PRIMEIRO PARA OS OUTROS ARQUIVOS VEREM
+// 📤 EXPORTA PRIMEIRO
 // ==========================================================
-module.exports={app,bot,S,P};
+module.exports = { app, bot, S, P };
 
 // ==========================================================
-// 📦 AGORA SIM CARREGA OS PATCHES
+// 📦 CARREGA PATCHES
 // ==========================================================
 require("./_patch_app.js");
 require('./_patch_oauth.js');
 
 // ==========================================================
-// 🔐 POR ÚLTimo FAZ LOGIN
+// 🔐 VERIFICAÇÃO E LOGIN COM STEMY_TOKEN
 // ==========================================================
-bot.login(process.env.STEMY_TOKEN?.trim() || ""?.trim() || "")
-.then(()=>log('BOT','✅','Login feito com sucesso!','','SUCESSO'))
-.catch(e=>log('BOT','❌','Login:',e.message,'','ERRO'));
-// === VERIFICAÇÃO OBRIGATÓRIA DO TOKEN ===
-}
-// === VERIFICAÇÃO OBRIGATÓRIA DO TOKEN ===
-}
-
-// === VERIFICAÇÃO OBRIGATÓRIA DO TOKEN ===
 const STEMY_TOKEN_VALIDO = process.env.STEMY_TOKEN?.trim();
+
 if (!STEMY_TOKEN_VALIDO || STEMY_TOKEN_VALIDO.length < 50) {
   log('BOT','❌','ERRO: STEMY_TOKEN NÃO ENCONTRADO OU INVÁLIDO','','ERRO');
   console.log('🔍 Tamanho recebido:', STEMY_TOKEN_VALIDO ? STEMY_TOKEN_VALIDO.length : 'VAZIO');
   process.exit(1);
 }
+
 console.log('🔑 Token carregado, tamanho:', STEMY_TOKEN_VALIDO.length);
 
 bot.login(STEMY_TOKEN_VALIDO)
-.then(()=>log('BOT','✅','Login feito com sucesso!','','SUCESSO'))
-.catch(e=>log('BOT','❌','Falha no Login:', e.message,'','ERRO'));
+  .then(() => log('BOT','✅','Login feito com sucesso!','','SUCESSO'))
+  .catch(e => log('BOT','❌','Falha no Login:', e.message,'','ERRO'));
