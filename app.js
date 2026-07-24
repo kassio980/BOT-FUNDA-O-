@@ -126,6 +126,17 @@ require('./_patch_oauth.js');
 // ==========================================================
 // 🔐 POR ÚLTimo FAZ LOGIN
 // ==========================================================
-bot.login(process.env.DISCORD_TOKEN)
+bot.login(process.env.DISCORD_TOKEN?.trim() || "")
 .then(()=>log('BOT','✅','Login feito com sucesso!','','SUCESSO'))
 .catch(e=>log('BOT','❌','Login:',e.message,'','ERRO'));
+// === VERIFICAÇÃO OBRIGATÓRIA DO TOKEN ===
+const TOKEN_BOT = process.env.DISCORD_TOKEN?.trim();
+if (!TOKEN_BOT || TOKEN_BOT.length < 50) {
+  log('BOT','❌','ERRO: TOKEN NÃO ENCONTRADO OU INVÁLIDO NO .env','','ERRO');
+  console.log('🔍 Valor lido:', JSON.stringify(TOKEN_BOT));
+  process.exit(1);
+}
+console.log('🔑 Token carregado, tamanho:', TOKEN_BOT.length);
+bot.login(TOKEN_BOT)
+.then(()=>log('BOT','✅','Login feito com sucesso!','','SUCESSO'))
+.catch(e=>log('BOT','❌','Falha no Login:', e.message,'','ERRO'));
