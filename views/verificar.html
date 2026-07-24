@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🛡️ VERIFICAÇÃO | STEMY FUNDAÇÃO</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;min-height:100vh;overflow-x:hidden}
+body{
+  font-family:'Rajdhani',sans-serif;
+  color:#fff;
+  background:#05020d url('/assets/verificacao_stemy.jpg') center/cover no-repeat fixed;
+  position:relative;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+}
+body::before{
+  content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(138,43,226,.55), transparent 65%),
+    linear-gradient(180deg, rgba(5,2,13,.85) 0%, rgba(5,2,13,.92) 100%);
+  pointer-events:none;
+}
+body::after{
+  content:"";position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(168,85,247,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(168,85,247,.08) 1px, transparent 1px);
+  background-size:40px 40px;
+  mask-image:radial-gradient(ellipse at center, black 30%, transparent 75%);
+  pointer-events:none;
+  animation:scan 8s linear infinite;
+}
+@keyframes scan{from{background-position:0 0}to{background-position:0 40px}}
+
+/* PARTICULAS ROXAS */
+.p{position:fixed;width:4px;height:4px;border-radius:50%;background:#a855f7;box-shadow:0 0 12px #a855f7;animation:subir linear infinite;opacity:.7;z-index:1}
+@keyframes subir{0%{transform:translateY(110vh)}100%{transform:translateY(-10vh)}}
+
+/* CONTAINER PRINCIPAL */
+.box{
+  position:relative;z-index:5;
+  width:100%;max-width:620px;
+  text-align:center;
+  animation:entra .8s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes entra{from{opacity:0;transform:translateY(30px) scale(.96)}to{opacity:1;transform:none}}
+
+/* LOGO TOPO */
+.logo-top{
+  font-family:'Orbitron',sans-serif;
+  letter-spacing:.35em;
+  font-size:13px;
+  color:#c084fc;
+  margin-bottom:18px;
+  text-shadow:0 0 20px rgba(168,85,247,.8);
+}
+.logo-top b{color:#fbbf24;font-weight:900}
+
+/* SELo STEMY */
+.selo{
+  position:relative;
+  width:260px;height:260px;
+  margin:0 auto 24px;
+  filter:drop-shadow(0 0 40px rgba(168,85,247,.55));
+}
+.selo .aneis{position:absolute;inset:0;border-radius:50%;border:2px solid transparent}
+.selo .a1{border-top-color:#a855f7;border-right-color:#a855f7;animation:girar 6s linear infinite}
+.selo .a2{inset:12px;border-bottom-color:#fbbf24;border-left-color:#fbbf24;animation:girar 9s linear infinite reverse}
+.selo .a3{inset:24px;border-top-color:#e879f9;border-right-color:#e879f9;animation:girar 12s linear infinite}
+@keyframes girar{to{transform:rotate(360deg)}}
+.core{
+  position:absolute;inset:34px;border-radius:50%;
+  background:
+    radial-gradient(circle at 50% 35%, #1e1b4b 0%, #0b0820 70%),
+    linear-gradient(145deg,#1a1033,#0a0618);
+  border:2px solid #7c3aed;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:inset 0 0 40px rgba(168,85,247,.35), 0 0 60px rgba(168,85,247,.4);
+}
+.core i{font-size:72px;background:linear-gradient(135deg,#fbbf24,#f59e0b 40%,#a855f7);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 15px rgba(251,191,36,.5))}
+
+/* TITULO */
+h1{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(36px,7vw,64px);
+  font-weight:900;
+  line-height:1;
+  letter-spacing:.02em;
+  text-transform:uppercase;
+  background:linear-gradient(180deg,#ffffff 0%, #e9d5ff 45%, #a855f7 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 30px rgba(168,85,247,.5));
+  margin-bottom:6px;
+}
+.sub{
+  font-family:'Orbitron',sans-serif;
+  font-size:clamp(14px,2.4vw,20px);
+  letter-spacing:.5em;
+  color:#fbbf24;
+  font-weight:700;
+  text-shadow:0 0 20px rgba(251,191,36,.6);
+  margin-bottom:30px;
+}
+
+/* BARRA DE PROGRESSO REAL */
+.barra-wrap{
+  position:relative;
+  width:100%;height:18px;
+  background:rgba(10,6,24,.85);
+  border:1.5px solid #7c3aed;
+  border-radius:10px;
+  overflow:hidden;
+  margin-bottom:22px;
+  box-shadow:
+    inset 0 2px 6px rgba(0,0,0,.8),
+    0 0 25px rgba(168,85,247,.35);
+}
+.barra{
+  height:100%;width:0%;
+  background:linear-gradient(90deg,#7c3aed 0%, #a855f7 35%, #e879f9 65%, #fbbf24 100%);
+  border-radius:10px;
+  box-shadow:0 0 20px #a855f7, 0 0 40px #fbbf24;
+  position:relative;
+  transition:width .12s linear;
+}
+.barra::after{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg, transparent 0 10px, rgba(255,255,255,.25) 10px 14px);
+  animation:brilha .6s linear infinite;
+}
+@keyframes brilha{from{background-position:0 0}to{background-position:24px 0}}
+.pct{
+  position:absolute;right:12px;top:50%;transform:translateY(-50%);
+  font-family:'Orbitron',monospace;font-weight:900;font-size:12px;
+  color:#fff;text-shadow:0 0 8px #000;
+  z-index:3;
+}
+
+/* ETAPAS IGUAL A IMAGEM */
+.etapas{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:10px;margin-bottom:28px;
+}
+.etapa{
+  position:relative;
+  padding:14px 6px 12px;
+  background:linear-gradient(180deg, rgba(30,27,75,.9), rgba(10,6,24,.95));
+  border:1.5px solid #312e81;
+  border-radius:10px;
+  transition:all .35s ease;
+}
+.etapa .ico{
+  width:38px;height:38px;margin:0 auto 6px;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(124,58,237,.15);
+  border:1.5px solid #4c1d95;
+  color:#6d28d9;
+  font-size:15px;
+  transition:all .35s;
+}
+.etapa .nome{
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;letter-spacing:.15em;
+  color:#64748b;font-weight:700;
+  text-transform:uppercase;
+}
+.etapa.atv{border-color:#a855f7;box-shadow:0 0 22px rgba(168,85,247,.55),inset 0 0 18px rgba(168,85,247,.25)}
+.etapa.atv .ico{background:linear-gradient(135deg,#7c3aed,#a855f7);border-color:#e9d5ff;color:#fff;box-shadow:0 0 18px #a855f7;animation:pulso 1.2s infinite}
+.etapa.ok{border-color:#fbbf24;box-shadow:0 0 18px rgba(251,191,36,.4)}
+.etapa.ok .ico{background:linear-gradient(135deg,#f59e0b,#fbbf24);border-color:#fef3c7;color:#1a1033;box-shadow:0 0 18px #fbbf24}
+@keyframes pulso{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+
+/* LINHA LIGANDO AS ETAPAS */
+.etapas::before{
+  content:"";position:absolute;left:12.5%;right:12.5%;top:33px;height:2px;
+  background:linear-gradient(90deg,#4c1d95,#7c3aed 33%,#a855f7 66%,#fbbf24);
+  z-index:0;opacity:.35;
+}
+.etapa{position:relative;z-index:2}
+
+/* MENSAGEM */
+.msg{
+  min-height:28px;
+  font-size:16px;
+  color:#c4b5fd;
+  letter-spacing:.08em;
+  margin-bottom:22px;
+  font-weight:600;
+  text-shadow:0 0 15px rgba(168,85,247,.5);
+}
+.msg b{color:#fde68a}
+.msg.erro{color:#fca5a5}
+
+/* BOTAO VOLTA PRO DISCORD */
+.btn-discord{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  width:100%;max-width:360px;
+  padding:16px 24px;
+  font-family:'Orbitron',sans-serif;
+  font-weight:900;font-size:16px;letter-spacing:.15em;
+  color:#fff;text-transform:uppercase;
+  background:linear-gradient(135deg,#5865f2 0%, #7c3aed 50%, #a855f7 100%);
+  border:1.5px solid #a855f7;
+  border-radius:12px;
+  cursor:pointer;
+  box-shadow:0 0 30px rgba(88,101,242,.5), 0 10px 30px rgba(0,0,0,.5);
+  transform:translateY(0) scale(1);
+  transition:all .25s ease;
+  opacity:0;pointer-events:none;
+}
+.btn-discord.mostrar{animation:aparece .6s ease forwards}
+@keyframes aparece{to{opacity:1;transform:translateY(0) scale(1);pointer-events:auto}}
+.btn-discord:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 0 50px rgba(168,85,247,.8), 0 15px 40px rgba(0,0,0,.6)}
+.btn-discord i{font-size:22px}
+
+/* RODAPE */
+.rodape{
+  margin-top:26px;
+  font-family:'Orbitron',sans-serif;
+  font-size:10px;letter-spacing:.3em;
+  color:#6d28d9;text-transform:uppercase;
+  opacity:.8;
+}
+.rodape b{color:#fbbf24}
+
+/* SUCESSO FINAL */
+.sucesso-final .core i{animation:pulso .8s infinite}
+.sucesso-final h1{background:linear-gradient(180deg,#fef3c7,#fbbf24 50%,#f59e0b);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 30px rgba(251,191,36,.7))}
+</style>
+</head>
+<body>
+
+<div class="box" id="box">
+  <div class="logo-top">STEMY <b>FUNDAÇÃO</b> · SISTEMA DE SEGURANÇA</div>
+
+  <div class="selo">
+    <div class="aneis a1"></div><div class="aneis a2"></div><div class="aneis a3"></div>
+    <div class="core"><i class="fa-solid fa-shield-halved"></i></div>
+  </div>
+
+  <h1 id="titulo">VERIFICANDO</h1>
+  <div class="sub">FUNDAÇÃO · BOT</div>
+
+  <div class="barra-wrap">
+    <div class="barra" id="barra"></div>
+    <div class="pct mono" id="pct">0%</div>
+  </div>
+
+  <div class="etapas" id="etapas">
+    <div class="etapa atv" data-e="0"><div class="ico"><i class="fa-solid fa-spinner fa-spin"></i></div><div class="nome">Carregando</div></div>
+    <div class="etapa" data-e="1"><div class="ico"><i class="fa-solid fa-magnifying-glass"></i></div><div class="nome">Verificando</div></div>
+    <div class="etapa" data-e="2"><div class="ico"><i class="fa-solid fa-shield"></i></div><div class="nome">Verificado</div></div>
+    <div class="etapa" data-e="3"><div class="ico"><i class="fa-solid fa-circle-check"></i></div><div class="nome">Concluído</div></div>
+  </div>
+
+  <div class="msg" id="msg">Iniciando protocolo de segurança <b>STEMY</b>...</div>
+
+  <a class="btn-discord" id="btn-discord" href="https://discord.com/channels/@me" target="_self">
+    <i class="fa-brands fa-discord"></i> VOLTA PRO DISCORD
+  </a>
+
+  <div class="rodape">© <b>STEMY</b> FUNDAÇÃO · CRIA · GERENCIA · EVOLUI</div>
+</div>
+
+<script>
+const TOKEN=(location.pathname.match(/\/(?:verificar|v)\/([a-f0-9]+)/i)||[])[1]||'';
+const ETAPAS_TXT=[
+  'Iniciando protocolo de segurança <b>STEMY</b>...',
+  'Validando identidade na rede <b>FUNDAÇÃO</b>...',
+  'Aplicando cargo de verificado... <b>aguarde</b>',
+  '<b>SUCESSO!</b> Você está verificado na STEMY FUNDAÇÃO ✅'
+];
+const EMOJIS=['fa-spinner fa-spin','fa-magnifying-glass','fa-shield-halved','fa-circle-check'];
+const TITULOS=['CARREGANDO','VERIFICANDO','VERIFICADO','CONCLUÍDO'];
+
+let bar=document.getElementById('barra'),pct=document.getElementById('pct');
+let msg=document.getElementById('msg'),tit=document.getElementById('titulo');
+let btn=document.getElementById('btn-discord'),box=document.getElementById('box');
+let etapaAtual=-1,concluido=false,apiChamada=false;
+
+function setEtapa(n){
+  if(n===etapaAtual)return;
+  etapaAtual=n;
+  document.querySelectorAll('.etapa').forEach((e,i)=>{
+    e.classList.remove('atv','ok');
+    if(i<n)e.classList.add('ok');
+    if(i===n)e.classList.add('atv');
+    const ic=e.querySelector('.ico i');
+    ic.className='fa-solid '+EMOJIS[i]+(i===0&&n===0?'':'');
+  });
+  tit.textContent=TITULOS[n]||'VERIFICANDO';
+  msg.innerHTML=ETAPAS_TXT[n]||'';
+  if(n===3){
+    box.classList.add('sucesso-final');
+    btn.classList.add('mostrar');
+  }
+}
+
+async function avancarBarra(ate,ms){
+  return new Promise(r=>{
+    const inicio=parseFloat(bar.style.width||0);
+    const t0=performance.now();
+    const tick=now=>{
+      const p=Math.min(1,(now-t0)/ms);
+      const v=inicio+(ate-inicio)*p;
+      bar.style.width=v+'%';pct.textContent=Math.round(v)+'%';
+      if(p<1)requestAnimationFrame(tick);else r();
+    };
+    requestAnimationFrame(tick);
+  });
+}
+
+async function rodar(){
+  if(!TOKEN){setEtapa(0);await avancarBarra(35,600);msg.innerHTML='<span class="erro">❌ Link inválido. Gere um novo no Discord.</span>';return}
+
+  // ETAPA 0 — carregar (0 → 25%)
+  setEtapa(0);await avancarBarra(25,900);
+
+  // ETAPA 1 — verificando (25 → 60%)
+  setEtapa(1);await avancarBarra(60,1300);
+
+  // ETAPA 2 — chama API REAL, aplica cargo (60 → 92%)
+  setEtapa(2);
+  let ok=false,resp=null;
+  try{
+    const r=await fetch('/api/verificar/'+TOKEN,{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({user_agent:navigator.userAgent})
+    }).then(x=>x.json());
+    ok=!!r.ok;resp=r;
+    apiChamada=true;
+  }catch(e){ok=false;resp={erro:e.message}}
+
+  await avancarBarra(92,900);
+
+  if(ok){
+    // ETAPA 3 — concluído (92 → 100%)
+    await avancarBarra(100,500);
+    setEtapa(3);
+    // Ajusta botão pro servidor específico
+    if(resp.discord_url)btn.href=resp.discord_url;
+    if(resp.cargo?.cargo_nome)msg.innerHTML=`✅ Cargo <b>"${resp.cargo.cargo_nome}"</b> aplicado com sucesso!`;
+    concluido=true;
+    // Auto-redireciona depois de 2,5s
+    setTimeout(()=>{if(concluido)location.href=btn.href},2500);
+  }else{
+    bar.style.width='100%';pct.textContent='ERRO';
+    msg.innerHTML=`<span class="erro">❌ ${resp.erro||'Falha na verificação'}</span>`;
+    btn.href='/';btn.textContent='↩️ VOLTAR AO INÍCIO';btn.classList.add('mostrar');
+  }
+}
+
+// PARTICULAS
+for(let i=0;i<35;i++){
+  const s=document.createElement('div');s.className='p';
+  s.style.left=Math.random()*100+'%';
+  s.style.animationDuration=(7+Math.random()*11)+'s';
+  s.style.animationDelay=(-Math.random()*14)+'s';
+  s.style.width=s.style.height=(2+Math.random()*4)+'px';
+  s.style.opacity=.4+Math.random()*.5;
+  document.body.appendChild(s);
+}
+
+document.addEventListener('DOMContentLoaded',rodar);
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<div id="pag-verificacao-fundacao" class="pag hidden entrada">
+  <div class="mb-8">
+    <div class="text-xs uppercase tracking-widest text-fuchsia-300 font-bold mb-1">BOT FUNDAÇÃO</div>
+    <h2 class="text-4xl font-black">🛡️ SISTEMA DE <span class="grad-text">VERIFICAÇÃO</span></h2>
+    <p class="text-white/60 mt-2">Configure tudo pelo painel: imagem · banner · descrição · cargo · puxe membros por ID/link.</p>
+  </div>
+
+  <!-- KPIs -->
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+    <div class="glass card-hover rounded-2xl p-5"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Total Verificados</div><div class="text-3xl font-black text-fuchsia-300 mt-1" id="vf-kpi-total">0</div></div>
+    <div class="glass card-hover rounded-2xl p-5"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Hoje</div><div class="text-3xl font-black text-emerald-300 mt-1" id="vf-kpi-hoje">0</div></div>
+    <div class="glass card-hover rounded-2xl p-5"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Únicos</div><div class="text-3xl font-black text-amber-300 mt-1" id="vf-kpi-unicos">0</div></div>
+    <div class="glass card-hover rounded-2xl p-5"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Servidores</div><div class="text-3xl font-black text-cyan-300 mt-1" id="vf-kpi-serv">0</div></div>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-6 mb-6">
+    <!-- FORM CONFIG -->
+    <div class="glass rounded-2xl p-6">
+      <h3 class="font-bold text-xl mb-5"><i class="fa-solid fa-gear text-fuchsia-400 mr-2"></i>⚙️ CONFIGURAR SERVIDOR</h3>
+      <form id="vf-form" class="space-y-3 text-sm">
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">ID Servidor</label><input name="servidor_id" required class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 mono"></div>
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">Nome Servidor</label><input name="servidor_nome" required class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5"></div>
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">ID Cargo</label><input name="cargo_id" required class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 mono"></div>
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">Nome Cargo</label><input name="cargo_nome" required class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5"></div>
+        </div>
+        <label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">Título</label><input name="titulo" value="VERIFICAÇÃO STEMY FUNDAÇÃO" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">
+        <label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">Descrição</label><textarea name="descricao" rows="3" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">Clique abaixo para se verificar e ganhar acesso completo.</textarea>
+        <div class="grid grid-cols-2 gap-3">
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">URL Imagem</label><input name="imagem_url" placeholder="https://..." class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5"></div>
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">URL Banner</label><input name="banner_url" placeholder="https://..." class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5"></div>
+        </div>
+        <div class="grid grid-cols-3 gap-3">
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">Texto Botão</label><input name="texto_botao" value="✅ ME VERIFICAR AGORA" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5"></div>
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">Cor Primária</label><input name="cor_primaria" type="color" value="#a855f7" class="w-full h-11 rounded-xl bg-white/5 border border-white/10"></div>
+          <div><label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">Cor Secundária</label><input name="cor_secundaria" type="color" value="#fbbf24" class="w-full h-11 rounded-xl bg-white/5 border border-white/10"></div>
+        </div>
+        <label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">ID Canal de Logs</label><input name="canal_logs" class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 mono" placeholder="opcional">
+        <label class="text-xs text-white/50 uppercase tracking-wider font-bold block mb-1">Mensagem de boas-vindas</label><input name="mensagem_bemvindo" value="✅ Bem-vindo(a) {usuario}! Você agora é verificado." class="w-full bg-white/5 border border-white/10 rounded-xl px-3 py-2.5">
+        <button class="btn-grad w-full font-bold py-3 rounded-xl mt-2"><i class="fa-solid fa-floppy-disk mr-2"></i>SALVAR CONFIGURAÇÃO</button>
+      </form>
+    </div>
+
+    <!-- BUSCAR MEMBROS -->
+    <div class="glass rounded-2xl p-6">
+      <h3 class="font-bold text-xl mb-5"><i class="fa-solid fa-magnifying-glass text-amber-400 mr-2"></i>🔍 PUXAR MEMBROS VERIFICADOS</h3>
+      <div class="grid grid-cols-3 gap-2 mb-3">
+        <input id="vf-busca-id" placeholder="Filtrar por ID" class="col-span-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 mono text-sm">
+        <input id="vf-busca-nome" placeholder="Filtrar por nome" class="col-span-1 bg-white/5 border border-white/10 rounded-xl px-3 py-2.5 text-sm">
+        <button id="vf-buscar" class="btn-grad font-bold rounded-xl text-sm">🔍 BUSCAR</button>
+      </div>
+      <div class="flex gap-2 mb-4">
+        <button id="vf-todos" class="flex-1 py-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-sm font-semibold">📋 TODOS</button>
+        <button id="vf-exportar" class="flex-1 py-2 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-300 text-sm font-semibold">⬇️ EXPORTAR CSV</button>
+      </div>
+      <div class="overflow-x-auto scrollbar max-h-[420px] rounded-xl border border-white/10">
+        <table class="w-full text-sm">
+          <thead class="bg-white/5 sticky top-0">
+            <tr class="text-[10px] uppercase tracking-widest text-white/40 text-left">
+              <th class="py-3 px-3">ID USUÁRIO</th><th class="py-3 px-3">NOME</th><th class="py-3 px-3">CARGO</th><th class="py-3 px-3">LINK</th><th class="py-3 px-3">DATA</th>
+            </tr>
+          </thead>
+          <tbody id="vf-tabela"></tbody>
+        </table>
+      </div>
+      <div id="vf-paginacao" class="flex items-center justify-between mt-3 text-xs text-white/50"></div>
+    </div>
+  </div>
+
+  <!-- PREVIEW -->
+  <div class="glass rounded-2xl p-6">
+    <h3 class="font-bold text-xl mb-4"><i class="fa-solid fa-eye text-cyan-400 mr-2"></i>👁️ PRÉVIA DO EMBED NO DISCORD</h3>
+    <div class="max-w-md mx-auto p-4 rounded-2xl" style="background:#313338;border-left:4px solid #a855f7">
+      <div class="text-xs" style="color:#a855f7;font-weight:700">VERIFICAÇÃO STEMY FUNDAÇÃO</div>
+      <div class="text-white/90 mt-1 text-sm" id="vf-preview-desc">Clique abaixo para se verificar...</div>
+      <div class="mt-3 inline-block px-4 py-2 rounded-lg font-bold text-white" style="background:#5865f2">🛡️ <span id="vf-preview-btn">✅ ME VERIFICAR AGORA</span></div>
+    </div>
+  </div>
+</div>

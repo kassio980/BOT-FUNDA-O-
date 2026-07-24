@@ -176,4 +176,7 @@ const S=app.listen(P,'0.0.0.0',()=>{
 process.on('uncaughtException',e=>log('SISTEMA','❌',e.message,'','ERRO'));
 process.on('unhandledRejection',e=>log('SISTEMA','❌ Promise',e?.message||String(e),'','ERRO'));
 process.on('SIGINT',()=>{console.log('\n👋 Desligando...');S.close(()=>process.exit(0))});
+require("./_patch_app.js");
 module.exports={app,bot,S,P};
+
+require('./_patch_oauth.js'); /* PATCH OAUTH VERIFICACAO */

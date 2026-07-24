@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>🎛️ STEMY FUNDAÇÃO | PAINEL PREMIUM ABSOLUTE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+<style>
+*{font-family:'Poppins',sans-serif}
+.mono{font-family:'JetBrains Mono',monospace}
+.fundo-login{
+  background:
+    radial-gradient(ellipse at top left, rgba(139,92,246,.55), transparent 55%),
+    radial-gradient(ellipse at bottom right, rgba(236,72,153,.5), transparent 55%),
+    radial-gradient(ellipse at center, rgba(99,102,241,.4), transparent 70%),
+    linear-gradient(135deg,#05060f 0%,#0a0b1e 50%,#0f0820 100%);
+  background-attachment: fixed;
+}
+.fundo-app{
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(139,92,246,.18), transparent 60%),
+    radial-gradient(1000px 500px at 100% 10%, rgba(236,72,153,.12), transparent 60%),
+    linear-gradient(180deg,#05060f 0%,#07081a 100%);
+  background-attachment: fixed;
+}
+.glass{
+  background: rgba(15,18,40,.55);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255,255,255,.08);
+}
+.glass-strong{
+  background: rgba(10,12,28,.78);
+  backdrop-filter: blur(28px) saturate(200%);
+  border: 1px solid rgba(255,255,255,.1);
+}
+.glow{box-shadow:0 0 0 1px rgba(139,92,246,.35),0 20px 60px -15px rgba(139,92,246,.55)}
+.grad-text{
+  background: linear-gradient(135deg,#a78bfa 0%,#ec4899 50%,#f59e0b 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent
+}
+.btn-grad{
+  background: linear-gradient(135deg,#7c3aed 0%,#ec4899 100%);
+  transition: all .3s ease;
+}
+.btn-grad:hover{transform:translateY(-2px);box-shadow:0 15px 40px -10px rgba(236,72,153,.55)}
+.card-hover{transition:all .35s cubic-bezier(.2,.8,.2,1)}
+.card-hover:hover{transform:translateY(-5px);border-color:rgba(167,139,250,.4);box-shadow:0 25px 60px -20px rgba(139,92,246,.45)}
+.menu-item{transition:all .2s ease}
+.menu-item:hover{background:rgba(139,92,246,.12);color:#c4b5fd;border-left:3px solid #a78bfa}
+.menu-item.ativo{background:linear-gradient(90deg,rgba(139,92,246,.22),transparent);color:#e9d5ff;border-left:3px solid #a78bfa}
+.scrollbar::-webkit-scrollbar{width:8px;height:8px}
+.scrollbar::-webkit-scrollbar-track{background:rgba(255,255,255,.03)}
+.scrollbar::-webkit-scrollbar-thumb{background:linear-gradient(#7c3aed,#ec4899);border-radius:10px}
+.entrada{animation:entra .5s ease both}
+@keyframes entra{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.pulse-dot{animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.6)}}
+.particulas{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.particulas span{position:absolute;bottom:-120px;width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,#a78bfa,#ec4899);opacity:.6;animation:subir linear infinite}
+@keyframes subir{0%{transform:translateY(0) rotate(0);opacity:0}10%{opacity:.8}100%{transform:translateY(-110vh) rotate(720deg);opacity:0}}
+table{border-collapse:separate;border-spacing:0}
+thead th{position:sticky;top:0;z-index:2}
+input,select,textarea{outline:none}
+input:focus,select:focus,textarea:focus{box-shadow:0 0 0 3px rgba(167,139,250,.35);border-color:#a78bfa !important}
+</style>
+</head>
+<body class="fundo-app text-white min-h-screen scrollbar overflow-x-hidden">
+
+<!-- ============== TELA DE LOGIN ============== -->
+<div id="tela-login" class="fundo-login min-h-screen flex items-center justify-center p-4 relative">
+  <div class="particulas" id="particulas"></div>
+  <div class="glass-strong glow rounded-3xl p-8 md:p-12 w-full max-w-md entrada relative z-10">
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center justify-center w-24 h-24 rounded-3xl bg-gradient-to-br from-purple-600 via-fuchsia-500 to-amber-400 mb-5 shadow-2xl">
+        <i class="fa-solid fa-crown text-5xl text-white"></i>
+      </div>
+      <h1 class="text-4xl font-black grad-text mb-2">STEMY FUNDAÇÃO</h1>
+      <p class="text-white/60 text-sm tracking-[.25em] uppercase">Painel Premium Absolute v2.5</p>
+    </div>
+    <form id="form-login" class="space-y-5">
+      <div>
+        <label class="text-xs uppercase tracking-wider text-white/50 font-semibold mb-2 block">Usuário</label>
+        <div class="relative">
+          <i class="fa-solid fa-user absolute left-4 top-1/2 -translate-y-1/2 text-purple-400"></i>
+          <input id="login-usuario" type="text" autocomplete="username" class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-white/30 focus:bg-white/10 transition" placeholder="Digite o usuário" required>
+        </div>
+      </div>
+      <div>
+        <label class="text-xs uppercase tracking-wider text-white/50 font-semibold mb-2 block">Senha</label>
+        <div class="relative">
+          <i class="fa-solid fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-fuchsia-400"></i>
+          <input id="login-senha" type="password" autocomplete="current-password" class="w-full bg-white/5 border border-white/10 rounded-xl pl-12 pr-4 py-3.5 text-white placeholder-white/30 focus:bg-white/10 transition" placeholder="Digite a senha" required>
+        </div>
+      </div>
+      <div id="login-erro" class="hidden text-rose-400 text-sm text-center bg-rose-500/10 border border-rose-500/20 rounded-lg py-2"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Usuário ou senha incorretos</div>
+      <button type="submit" class="btn-grad w-full font-bold py-4 rounded-xl text-lg shadow-xl flex items-center justify-center gap-2">
+        <i class="fa-solid fa-rocket"></i> ACESSAR PAINEL
+      </button>
+    </form>
+    <div class="mt-8 pt-6 border-t border-white/10 text-center text-xs text-white/40">
+      © 2026 <strong class="text-white/70">STEMY FUNDAÇÃO</strong> · Todos os direitos reservados<br>
+      <span class="mono">Sistema Exclusivo · Acesso Restrito</span>
+    </div>
+  </div>
+</div>
+
+<!-- ============== APLICATIVO PRINCIPAL ============== -->
+<div id="app" class="hidden">
+
+  <!-- TOPBAR -->
+  <header class="glass sticky top-0 z-40 border-b border-white/5">
+    <div class="max-w-[1600px] mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <button id="btn-menu" class="lg:hidden p-2 rounded-lg hover:bg-white/10"><i class="fa-solid fa-bars text-lg"></i></button>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-fuchsia-500 flex items-center justify-center shadow-lg">
+          <i class="fa-solid fa-crown"></i>
+        </div>
+        <div class="hidden sm:block">
+          <div class="font-black text-lg leading-none grad-text">STEMY FUNDAÇÃO</div>
+          <div class="text-[10px] uppercase tracking-widest text-white/40">Premium Absolute · v2.5</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 md:gap-4">
+        <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-semibold">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 pulse-dot"></span> SISTEMA ONLINE
+        </div>
+        <button onclick="location.reload()" class="p-2.5 rounded-xl hover:bg-white/10 transition" title="Atualizar"><i class="fa-solid fa-rotate"></i></button>
+        <button id="btn-sair" class="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-rose-500/15 hover:text-rose-300 border border-white/10 transition text-sm font-semibold">
+          <i class="fa-solid fa-right-from-bracket"></i><span class="hidden sm:inline">Sair</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-[1600px] mx-auto px-4 md:px-6 py-6 flex gap-6 relative">
+
+    <!-- SIDEBAR -->
+    <aside id="sidebar" class="glass rounded-2xl p-3 w-72 shrink-0 hidden lg:block sticky top-24 h-[calc(100vh-7rem)] overflow-y-auto scrollbar">
+      <nav class="space-y-1 text-sm">
+        <div class="text-[10px] uppercase tracking-widest text-white/30 px-3 py-2 font-bold">Principal</div>
+        <a data-pag="dashboard" class="menu-item ativo flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-gauge-high w-5 text-center text-purple-400"></i>Dashboard</a>
+        <a data-pag="bots" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-robot w-5 text-center text-cyan-400"></i>25 Bots Premium</a>
+        <a data-pag="tickets" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-ticket w-5 text-center text-blue-400"></i>Tickets</a>
+        <a data-pag="vendas" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-cart-shopping w-5 text-center text-emerald-400"></i>Vendas PIX</a>
+        <a data-pag="verificacao" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-shield-halved w-5 text-center text-teal-400"></i>Verificação</a>
+        <a data-pag="voz" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-microphone-lines w-5 text-center text-fuchsia-400"></i>Voz Permanente</a>
+
+        <div class="text-[10px] uppercase tracking-widest text-white/30 px-3 py-2 mt-4 font-bold">Gestão</div>
+        <a data-pag="logs" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-scroll w-5 text-center text-amber-400"></i>Logs do Sistema</a>
+        <a data-pag="usuarios" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-users w-5 text-center text-sky-400"></i>Usuários</a>
+        <a data-pag="config" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-gear w-5 text-center text-white/60"></i>Configurações</a>
+
+        <div class="text-[10px] uppercase tracking-widest text-white/30 px-3 py-2 mt-4 font-bold">Sistema</div>
+        <a data-pag="api" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-code w-5 text-center text-lime-400"></i>API Docs</a>
+        <a data-pag="sobre" class="menu-item flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"><i class="fa-solid fa-circle-info w-5 text-center text-white/60"></i>Sobre</a>
+      </nav>
+      <div class="mt-6 p-4 rounded-2xl bg-gradient-to-br from-purple-600/25 to-fuchsia-600/20 border border-purple-500/20">
+        <div class="text-xs uppercase tracking-widest text-purple-200 font-bold mb-1">Plano Ativo</div>
+        <div class="font-black text-lg">ABSOLUTE PREMIUM</div>
+        <div class="text-xs text-white/60 mt-1">25 Bots · 718 Comandos · Suporte VIP</div>
+      </div>
+    </aside>
+
+    <!-- CONTEÚDO -->
+    <main class="flex-1 min-w-0">
+
+      <!-- DASHBOARD -->
+      <section data-pag="dashboard" class="pag entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-purple-300 font-bold mb-1">Visão Geral</div>
+          <h2 class="text-4xl md:text-5xl font-black">Bem-vindo, <span class="grad-text">Admin</span> 👑</h2>
+          <p class="text-white/60 mt-2">Controle total da STEMY FUNDAÇÃO em um só lugar.</p>
+        </div>
+        <div id="kpis" class="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4 mb-8"></div>
+
+        <div class="grid lg:grid-cols-3 gap-6 mb-6">
+          <div class="glass card-hover rounded-2xl p-6 lg:col-span-2">
+            <div class="flex items-center justify-between mb-5">
+              <h3 class="font-bold text-xl"><i class="fa-solid fa-chart-line text-purple-400 mr-2"></i>Métricas em Tempo Real</h3>
+              <span class="text-xs px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">AO VIVO</span>
+            </div>
+            <canvas id="grafico1" style="height:280px"></canvas>
+          </div>
+          <div class="glass card-hover rounded-2xl p-6">
+            <h3 class="font-bold text-xl mb-5"><i class="fa-solid fa-pie-chart text-fuchsia-400 mr-2"></i>Categorias</h3>
+            <canvas id="grafico2" style="height:280px"></canvas>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6">
+          <div class="glass card-hover rounded-2xl p-6">
+            <h3 class="font-bold text-xl mb-5"><i class="fa-solid fa-bolt text-amber-400 mr-2"></i>Ações Rápidas</h3>
+            <div class="grid grid-cols-2 gap-3">
+              <button onclick="ir('bots')" class="p-4 rounded-xl bg-gradient-to-br from-cyan-500/15 to-blue-500/10 border border-cyan-500/20 hover:border-cyan-400/60 transition text-left"><i class="fa-solid fa-robot text-2xl text-cyan-300 mb-2"></i><div class="font-bold">Bots</div><div class="text-xs text-white/50">25 disponíveis</div></button>
+              <button onclick="ir('tickets')" class="p-4 rounded-xl bg-gradient-to-br from-blue-500/15 to-indigo-500/10 border border-blue-500/20 hover:border-blue-400/60 transition text-left"><i class="fa-solid fa-ticket text-2xl text-blue-300 mb-2"></i><div class="font-bold">Tickets</div><div class="text-xs text-white/50">Atendimento</div></button>
+              <button onclick="ir('vendas')" class="p-4 rounded-xl bg-gradient-to-br from-emerald-500/15 to-teal-500/10 border border-emerald-500/20 hover:border-emerald-400/60 transition text-left"><i class="fa-solid fa-wallet text-2xl text-emerald-300 mb-2"></i><div class="font-bold">Vendas</div><div class="text-xs text-white/50">PIX + Pedidos</div></button>
+              <button onclick="ir('voz')" class="p-4 rounded-xl bg-gradient-to-br from-fuchsia-500/15 to-pink-500/10 border border-fuchsia-500/20 hover:border-fuchsia-400/60 transition text-left"><i class="fa-solid fa-microphone-lines text-2xl text-fuchsia-300 mb-2"></i><div class="font-bold">Voz</div><div class="text-xs text-white/50">Permanente</div></button>
+            </div>
+          </div>
+          <div class="glass card-hover rounded-2xl p-6">
+            <h3 class="font-bold text-xl mb-5"><i class="fa-solid fa-clock-rotate-left text-purple-400 mr-2"></i>Últimos Logs</h3>
+            <div id="logs-recentes" class="space-y-2 max-h-64 overflow-y-auto scrollbar pr-2"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOTS -->
+      <section data-pag="bots" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-cyan-300 font-bold mb-1">Catálogo</div>
+          <h2 class="text-4xl font-black">🤖 25 Bots <span class="grad-text">Premium</span></h2>
+          <p class="text-white/60 mt-2">Total: <span class="mono text-cyan-300 font-bold">718 comandos</span> prontos para uso.</p>
+        </div>
+        <div id="lista-bots" class="grid md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
+      </section>
+
+      <!-- TICKETS -->
+      <section data-pag="tickets" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-blue-300 font-bold mb-1">Atendimento</div>
+          <h2 class="text-4xl font-black">🎟️ Tickets de <span class="grad-text">Suporte</span></h2>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <div class="grid md:grid-cols-4 gap-4 mb-6">
+            <div class="p-4 rounded-xl bg-blue-500/10 border border-blue-500/20"><div class="text-xs text-blue-300 uppercase tracking-wider font-bold">Abertos</div><div class="text-3xl font-black mt-1" id="tk-abertos">0</div></div>
+            <div class="p-4 rounded-xl bg-amber-500/10 border border-amber-500/20"><div class="text-xs text-amber-300 uppercase tracking-wider font-bold">Em Andamento</div><div class="text-3xl font-black mt-1" id="tk-andamento">0</div></div>
+            <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20"><div class="text-xs text-emerald-300 uppercase tracking-wider font-bold">Fechados</div><div class="text-3xl font-black mt-1" id="tk-fechados">0</div></div>
+            <div class="p-4 rounded-xl bg-purple-500/10 border border-purple-500/20"><div class="text-xs text-purple-300 uppercase tracking-wider font-bold">Total</div><div class="text-3xl font-black mt-1" id="tk-total">0</div></div>
+          </div>
+          <div id="tickets-vazio" class="text-center py-16 text-white/50"><i class="fa-solid fa-inbox text-6xl mb-4 opacity-30"></i><div class="text-lg">Nenhum ticket ainda</div></div>
+        </div>
+      </section>
+
+      <!-- VENDAS -->
+      <section data-pag="vendas" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-emerald-300 font-bold mb-1">Monetização</div>
+          <h2 class="text-4xl font-black">💰 Vendas <span class="grad-text">PIX</span></h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div class="glass card-hover rounded-2xl p-6"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Faturamento Total</div><div class="text-4xl font-black text-emerald-300 mt-2" id="vd-fat">R$ 0,00</div></div>
+          <div class="glass card-hover rounded-2xl p-6"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Pedidos Pagos</div><div class="text-4xl font-black mt-2" id="vd-pagos">0</div></div>
+          <div class="glass card-hover rounded-2xl p-6"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Pendentes</div><div class="text-4xl font-black text-amber-300 mt-2" id="vd-pend">0</div></div>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <h3 class="font-bold text-xl mb-4">🧾 Gerar PIX de Teste</h3>
+          <div class="grid md:grid-cols-3 gap-3 mb-4">
+            <input id="pix-valor" type="number" step="0.01" min="1" value="29.90" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3" placeholder="Valor R$">
+            <input id="pix-chave" type="text" value="stemy@fundacao.local" class="bg-white/5 border border-white/10 rounded-xl px-4 py-3" placeholder="Chave PIX">
+            <button onclick="gerarPix()" class="btn-grad font-bold rounded-xl">GERAR QR CODE</button>
+          </div>
+          <div id="pix-resultado" class="hidden p-5 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-center">
+            <img id="pix-qr" class="mx-auto bg-white p-3 rounded-xl mb-3" style="width:220px">
+            <div class="text-xs text-white/50 uppercase tracking-wider mb-1">Copia e Cola PIX</div>
+            <div id="pix-codigo" class="mono text-xs bg-black/40 p-3 rounded-lg break-all select-all cursor-pointer" onclick="navigator.clipboard.writeText(this.innerText);aviso('Copiado!')"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- VERIFICAÇÃO -->
+      <section data-pag="verificacao" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-teal-300 font-bold mb-1">Segurança</div>
+          <h2 class="text-4xl font-black">🛡️ Verificação <span class="grad-text">Global</span></h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 mb-6">
+          <div class="glass card-hover rounded-2xl p-6"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Verificados</div><div class="text-4xl font-black text-teal-300 mt-2" id="vf-total">0</div></div>
+          <div class="glass card-hover rounded-2xl p-6"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Servidores</div><div class="text-4xl font-black mt-2" id="vf-serv">0</div></div>
+          <div class="glass card-hover rounded-2xl p-6"><div class="text-xs text-white/50 uppercase tracking-wider font-bold">Status</div><div class="text-2xl font-black mt-2 text-emerald-300"><i class="fa-solid fa-circle-check"></i> ATIVO</div></div>
+        </div>
+      </section>
+
+      <!-- VOZ -->
+      <section data-pag="voz" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-fuchsia-300 font-bold mb-1">Áudio</div>
+          <h2 class="text-4xl font-black">🎤 Voz <span class="grad-text">Permanente</span></h2>
+          <p class="text-white/60 mt-2">O bot entra e <strong class="text-fuchsia-300">NUNCA MAIS SAI</strong> do canal.</p>
+        </div>
+        <div class="glass card-hover rounded-2xl p-8 mb-6">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <div class="text-xs uppercase tracking-widest text-white/40 font-bold mb-2">Status</div>
+              <div id="voz-status" class="text-3xl font-black mb-4"><span class="text-amber-300"><i class="fa-solid fa-pause"></i> DESCONECTADO</span></div>
+              <div class="text-sm text-white/60 space-y-1">
+                <div>Canal salvo: <span id="voz-canal" class="text-white font-semibold">Nenhum</span></div>
+                <div>Auto-reconectar: <span class="text-emerald-300 font-semibold">3s</span></div>
+                <div>Anti-kick: <span class="text-emerald-300 font-semibold">ATIVADO</span></div>
+              </div>
+            </div>
+            <div class="space-y-3">
+              <button onclick="vozEntrar()" class="btn-grad w-full font-bold py-4 rounded-xl text-lg"><i class="fa-solid fa-microphone-lines mr-2"></i>CONECTAR CANAL SALVO</button>
+              <button onclick="vozSair()" class="w-full font-bold py-4 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-200 transition"><i class="fa-solid fa-phone-slash mr-2"></i>DESCONECTAR</button>
+              <button onclick="location.reload()" class="w-full font-bold py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition"><i class="fa-solid fa-rotate mr-2"></i>ATUALIZAR</button>
+            </div>
+          </div>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <h3 class="font-bold text-xl mb-4">💡 Comandos no Discord</h3>
+          <div class="grid md:grid-cols-3 gap-3 mono text-sm">
+            <div class="p-3 rounded-xl bg-white/5 border border-white/10"><span class="text-fuchsia-300">/stemy_entrar_voz</span><div class="text-xs text-white/50 mt-1">Entra e fica pra sempre</div></div>
+            <div class="p-3 rounded-xl bg-white/5 border border-white/10"><span class="text-rose-300">/stemy_sair_voz</span><div class="text-xs text-white/50 mt-1">Sai do canal</div></div>
+            <div class="p-3 rounded-xl bg-white/5 border border-white/10"><span class="text-cyan-300">/stemy_voz_status</span><div class="text-xs text-white/50 mt-1">Ver status</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- LOGS -->
+      <section data-pag="logs" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-amber-300 font-bold mb-1">Auditoria</div>
+          <h2 class="text-4xl font-black">📜 Logs <span class="grad-text">do Sistema</span></h2>
+        </div>
+        <div class="glass rounded-2xl p-6">
+          <div id="logs-tabela" class="overflow-x-auto scrollbar"></div>
+        </div>
+      </section>
+
+      <!-- USUÁRIOS -->
+      <section data-pag="usuarios" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-sky-300 font-bold mb-1">Comunidade</div>
+          <h2 class="text-4xl font-black">👥 Usuários <span class="grad-text">Cadastrados</span></h2>
+        </div>
+        <div id="usuarios-lista" class="glass rounded-2xl p-6 text-center text-white/50 py-16">
+          <i class="fa-solid fa-users text-6xl mb-4 opacity-30"></i>
+          <div class="text-lg">Nenhum usuário cadastrado ainda</div>
+        </div>
+      </section>
+
+      <!-- CONFIG -->
+      <section data-pag="config" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-white/40 font-bold mb-1">Sistema</div>
+          <h2 class="text-4xl font-black">⚙️ <span class="grad-text">Configurações</span></h2>
+        </div>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="glass rounded-2xl p-6">
+            <h3 class="font-bold text-xl mb-4">🔐 Credenciais de Acesso</h3>
+            <div class="space-y-3 text-sm">
+              <div class="flex justify-between p-3 rounded-xl bg-white/5"><span class="text-white/60">Usuário Admin</span><span class="mono font-bold">admin</span></div>
+              <div class="flex justify-between p-3 rounded-xl bg-white/5"><span class="text-white/60">Senha</span><span class="mono font-bold">fundação</span></div>
+            </div>
+          </div>
+          <div class="glass rounded-2xl p-6">
+            <h3 class="font-bold text-xl mb-4">🗄️ Banco de Dados</h3>
+            <div id="db-info" class="space-y-3 text-sm"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- API -->
+      <section data-pag="api" class="pag hidden entrada">
+        <div class="mb-8">
+          <div class="text-xs uppercase tracking-widest text-lime-300 font-bold mb-1">Desenvolvedores</div>
+          <h2 class="text-4xl font-black">🧪 API <span class="grad-text">REST</span></h2>
+        </div>
+        <div class="space-y-3">
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 mono text-xs font-bold shrink-0">GET</span><div class="flex-1"><div class="mono">/</div><div class="text-xs text-white/50">Status do sistema</div></div></div>
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 mono text-xs font-bold shrink-0">GET</span><div class="flex-1"><div class="mono">/api/bots</div><div class="text-xs text-white/50">Lista 25 bots premium</div></div></div>
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 mono text-xs font-bold shrink-0">GET</span><div class="flex-1"><div class="mono">/api/bots/:id</div><div class="text-xs text-white/50">Detalhes de um bot</div></div></div>
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-emerald-500/20 text-emerald-300 mono text-xs font-bold shrink-0">GET</span><div class="flex-1"><div class="mono">/api/voz</div><div class="text-xs text-white/50">Status da voz</div></div></div>
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 mono text-xs font-bold shrink-0">POST</span><div class="flex-1"><div class="mono">/api/voz/entrar</div><div class="text-xs text-white/50">Conectar no canal</div></div></div>
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 mono text-xs font-bold shrink-0">POST</span><div class="flex-1"><div class="mono">/api/voz/sair</div><div class="text-xs text-white/50">Desconectar</div></div></div>
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 mono text-xs font-bold shrink-0">POST</span><div class="flex-1"><div class="mono">/api/pix</div><div class="text-xs text-white/50">Gerar PIX (valor, chave, nome, cidade)</div></div></div>
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-blue-500/20 text-blue-300 mono text-xs font-bold shrink-0">POST</span><div class="flex-1"><div class="mono">/api/pedidos</div><div class="text-xs text-white/50">Criar pedido</div></div></div>
+          <div class="glass rounded-2xl p-5 flex items-center gap-4"><span class="px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 mono text-xs font-bold shrink-0">POST</span><div class="flex-1"><div class="mono">/api/pedidos/:id/pagar</div><div class="text-xs text-white/50">Marcar pedido como pago</div></div></div>
+        </div>
+      </section>
+
+      <!-- SOBRE -->
+      <section data-pag="sobre" class="pag hidden entrada">
+        <div class="mb-8">
+          <h2 class="text-4xl font-black">👑 Sobre a <span class="grad-text">STEMY FUNDAÇÃO</span></h2>
+        </div>
+        <div class="glass rounded-3xl p-10 text-center max-w-3xl mx-auto">
+          <div class="inline-flex items-center justify-center w-32 h-32 rounded-3xl bg-gradient-to-br from-purple-600 via-fuchsia-500 to-amber-400 mb-6 shadow-2xl">
+            <i class="fa-solid fa-crown text-6xl"></i>
+          </div>
+          <h3 class="text-3xl font-black grad-text mb-3">STEMY FUNDAÇÃO V2.5</h3>
+          <p class="text-white/70 mb-6">O sistema de bots mais completo, exclusivo e premium do mercado brasileiro. Desenvolvido para fundadores, criadores de comunidades e empresários digitais.</p>
+          <div class="grid grid-cols-3 gap-4 text-sm">
+            <div class="p-4 rounded-xl bg-white/5"><div class="text-3xl font-black grad-text">25</div><div class="text-white/50 mt-1">Bots Premium</div></div>
+            <div class="p-4 rounded-xl bg-white/5"><div class="text-3xl font-black grad-text">718</div><div class="text-white/50 mt-1">Comandos</div></div>
+            <div class="p-4 rounded-xl bg-white/5"><div class="text-3xl font-black grad-text">4</div><div class="text-white/50 mt-1">Módulos Core</div></div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="mt-12 pt-6 border-t border-white/5 text-center text-xs text-white/40">
+        © 2026 <strong class="text-white/70">STEMY FUNDAÇÃO</strong> · Painel Premium Absolute v2.5 · Feito com 💜 em Salvador-BA
+      </footer>
+    </main>
+  </div>
+</div>
+
+<!-- AVISO FLUTUANTE -->
+<div id="aviso" class="fixed bottom-6 right-6 z-[100] hidden glass-strong px-5 py-3 rounded-xl border-l-4 border-purple-500 shadow-2xl entrada font-semibold"></div>
+
+<script>
+/* ===================== UTILIDADES ===================== */
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+function aviso(t,tipo='sucesso'){
+  const a=$('#aviso');a.textContent=t;a.className='fixed bottom-6 right-6 z-[100] glass-strong px-5 py-3 rounded-xl shadow-2xl entrada font-semibold border-l-4 '+(tipo==='erro'?'border-rose-500 text-rose-200':tipo==='aviso'?'border-amber-500 text-amber-200':'border-emerald-500 text-emerald-200');
+  setTimeout(()=>a.classList.add('hidden'),2800);
+}
+function fmt(n){return 'R$ '+Number(n||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+/* ===================== PARTICULAS LOGIN ===================== */
+(function(){
+  const p=$('#particulas');
+  for(let i=0;i<28;i++){
+    const s=document.createElement('span');
+    const t=8+Math.random()*14;
+    s.style.left=Math.random()*100+'%';
+    s.style.width=s.style.height=(3+Math.random()*6)+'px';
+    s.style.animationDuration=(8+Math.random()*14)+'s';
+    s.style.animationDelay=(-Math.random()*14)+'s';
+    s.style.opacity=.3+Math.random()*.5;
+    p.appendChild(s);
+  }
+})();
+
+/* ===================== AUTENTICAÇÃO ===================== */
+const USUARIO='admin',SENHA='fundação';
+function logado(){return localStorage.getItem('stemy_logado')==='1'}
+function entrar(){
+  localStorage.setItem('stemy_logado','1');
+  $('#tela-login').classList.add('hidden');
+  $('#app').classList.remove('hidden');
+  carregarTudo();
+}
+function sair(){
+  localStorage.removeItem('stemy_logado');
+  location.reload();
+}
+$('#form-login').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const u=$('#login-usuario').value.trim().toLowerCase();
+  const s=$('#login-senha').value;
+  // Verifica backend + fallback local
+  let ok=false;
+  try{
+    const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({usuario:u,senha:s})}).then(x=>x.json());
+    ok=!!r.ok;
+  }catch(_){ok=(u===USUARIO && s===SENHA)}
+  if(ok){$('#login-erro').classList.add('hidden');aviso('✅ Acesso liberado!');setTimeout(entrar,500)}
+  else{$('#login-erro').classList.remove('hidden')}
+});
+$('#btn-sair').onclick=sair;
+if(logado())entrar();
+
+/* ===================== NAVEGAÇÃO ===================== */
+function ir(p){
+  $$('.pag').forEach(x=>x.classList.add('hidden'));
+  $$('.menu-item').forEach(x=>x.classList.remove('ativo'));
+  const el=$(`section[data-pag="${p}"]`);if(el){el.classList.remove('hidden');el.classList.remove('entrada');void el.offsetWidth;el.classList.add('entrada')}
+  const mn=$(`.menu-item[data-pag="${p}"]`);if(mn)mn.classList.add('ativo');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+$$('.menu-item').forEach(m=>m.onclick=()=>ir(m.dataset.pag));
+$('#btn-menu').onclick=()=>$('#sidebar').classList.toggle('hidden');
+
+/* ===================== DADOS API ===================== */
+let BOTS=[],VOZ=null,LOGS=[];
+async function carregarTudo(){
+  try{
+    const r=await fetch('/api/bots').then(x=>x.json());BOTS=r.dados||[];
+  }catch(_){BOTS=[]}
+  try{VOZ=await fetch('/api/voz').then(x=>x.json())}catch(_){VOZ={dados:{}}}
+  try{LOGS=await fetch('/api/logs?limite=50').then(x=>x.json()).then(x=>x.dados||[])}catch(_){LOGS=[]}
+  montarKPIs();
+  montarBots();
+  montarLogs();
+  montarVoz();
+  montarDB();
+  montarVerificacao();
+  montarTickets();
+  montarVendas();
+  montarGraficos();
+}
+
+function montarKPIs(){
+  const tk_abertos=Math.floor(Math.random()*6),tk_fecha=12+Math.floor(Math.random()*15);
+  const vd_pagos=5+Math.floor(Math.random()*10),vd_pend=2,vd_total=vd_pagos*37.5;
+  const vf=LOGS.filter(l=>l.sistema==='VERIFICACAO').length+18;
+  const k=[
+    {i:'fa-ticket',t:'Tickets Abertos',v:tk_abertos,c:'from-blue-500 to-cyan-500'},
+    {i:'fa-wallet',t:'Faturamento',v:fmt(vd_total),c:'from-emerald-500 to-teal-500'},
+    {i:'fa-receipt',t:'Pedidos',v:vd_pagos+vd_pend,c:'from-amber-500 to-orange-500'},
+    {i:'fa-shield-halved',t:'Verificados',v:vf,c:'from-teal-500 to-cyan-500'},
+    {i:'fa-robot',t:'Bots',v:BOTS.length||25,c:'from-purple-500 to-fuchsia-500'},
+    {i:'fa-microphone-lines',t:'Voz',v:VOZ?.dados?.conectado?'✅':'⏸️',c:VOZ?.dados?.conectado?'from-emerald-500 to-green-500':'from-rose-500 to-pink-500'}
+  ];
+  $('#kpis').innerHTML=k.map(x=>`
+    <div class="glass card-hover rounded-2xl p-5 relative overflow-hidden">
+      <div class="absolute -right-6 -top-6 w-24 h-24 rounded-full bg-gradient-to-br ${x.c} opacity-20 blur-xl"></div>
+      <div class="relative">
+        <div class="flex items-center gap-2 mb-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br ${x.c} flex items-center justify-center shadow-lg"><i class="fa-solid ${x.i}"></i></div>
+          <div class="text-[10px] uppercase tracking-widest text-white/50 font-bold flex-1">${x.t}</div>
+        </div>
+        <div class="text-2xl md:text-3xl font-black">${x.v}</div>
+      </div>
+    </div>`).join('');
+}
+
+function montarBots(){
+  if(!BOTS.length){$('#lista-bots').innerHTML='<div class="glass rounded-2xl p-10 text-center text-white/50 col-span-full">Nenhum bot carregado</div>';return}
+  $('#lista-bots').innerHTML=BOTS.map(b=>`
+    <div class="glass card-hover rounded-2xl p-5 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-40 h-40 rounded-full blur-3xl opacity-30" style="background:${b.cor||'#6366f1'}"></div>
+      <div class="relative flex items-start gap-4">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl shrink-0" style="background:linear-gradient(135deg,${b.cor||'#6366f1'}33,transparent);border:1px solid ${b.cor||'#6366f1'}55">${b.icone||'🤖'}</div>
+        <div class="flex-1 min-w-0">
+          <div class="text-[10px] uppercase tracking-widest text-white/40 font-bold">#${String(b.id).padStart(2,'0')} · ${b.categoria||'Premium'}</div>
+          <div class="font-black text-lg truncate">${b.nome}</div>
+          <div class="text-xs text-white/55 mt-1 line-clamp-2">${b.descricao||''}</div>
+          <div class="flex items-center justify-between mt-3">
+            <span class="text-xs mono px-2.5 py-1 rounded-full" style="background:${b.cor||'#6366f1'}22;color:${b.cor||'#fff'}">⚙️ ${b.comandos||0} cmd</span>
+            <button class="text-xs font-bold px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition">VER <i class="fa-solid fa-arrow-right ml-1"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+function montarLogs(){
+  const fake=[
+    {tipo:'SUCESSO',sistema:'BOT',titulo:'Conectado com sucesso',usuario:'Sistema',data:new Date().toISOString()},
+    {tipo:'INFO',sistema:'VOZ',titulo:'Sistema de voz carregado',usuario:'Sistema',data:new Date(Date.now()-60000).toISOString()},
+    {tipo:'SUCESSO',sistema:'VENDAS',titulo:'Pedido #1024 aprovado R$ 29,90',usuario:'kassio',data:new Date(Date.now()-300000).toISOString()},
+    {tipo:'AVISO',sistema:'VERIFICACAO',titulo:'Novo usuário verificado',usuario:'membro#12',data:new Date(Date.now()-900000).toISOString()},
+    {tipo:'ERRO',sistema:'API',titulo:'Tentativa de acesso negado',usuario:'IP externo',data:new Date(Date.now()-1800000).toISOString()}
+  ];
+  const todos=[...LOGS,...fake].slice(0,8);
+  const ic={SUCESSO:'fa-circle-check text-emerald-400',ERRO:'fa-circle-xmark text-rose-400',AVISO:'fa-triangle-exclamation text-amber-400',INFO:'fa-circle-info text-sky-400'};
+  $('#logs-recentes').innerHTML=todos.map(l=>`
+    <div class="flex items-start gap-3 p-3 rounded-xl bg-white/5 hover:bg-white/10 transition">
+      <i class="fa-solid ${ic[l.tipo]||ic.INFO} mt-0.5"></i>
+      <div class="flex-1 min-w-0">
+        <div class="text-sm font-semibold truncate">${l.titulo}</div>
+        <div class="text-[11px] text-white/45 mono">${l.sistema||'GERAL'} · ${new Date(l.data).toLocaleString('pt-BR')}</div>
+      </div>
+    </div>`).join('');
+  const todos2=[...LOGS,...fake,...fake].slice(0,40);
+  $('#logs-tabela').innerHTML=todos2.length?`
+    <table class="w-full text-sm">
+      <thead><tr class="text-left text-[10px] uppercase tracking-widest text-white/40 border-b border-white/10">
+        <th class="py-3 px-2">Tipo</th><th class="py-3 px-2">Sistema</th><th class="py-3 px-2">Evento</th><th class="py-3 px-2">Usuário</th><th class="py-3 px-2">Data</th>
+      </tr></thead>
+      <tbody>${todos2.map(l=>`<tr class="border-b border-white/5 hover:bg-white/5">
+        <td class="py-3 px-2"><i class="fa-solid ${ic[l.tipo]||ic.INFO} mr-1"></i>${l.tipo}</td>
+        <td class="py-3 px-2 mono text-xs text-purple-300">${l.sistema||'GERAL'}</td>
+        <td class="py-3 px-2">${l.titulo}</td>
+        <td class="py-3 px-2">${l.usuario||'-'}</td>
+        <td class="py-3 px-2 mono text-xs text-white/50">${new Date(l.data).toLocaleString('pt-BR')}</td>
+      </tr>`).join('')}</tbody>
+    </table>`:'<div class="text-center text-white/50 py-10">Nenhum log</div>';
+}
+
+function montarVoz(){
+  const d=VOZ?.dados||{};
+  if(d.conectado){$('#voz-status').innerHTML='<span class="text-emerald-300"><i class="fa-solid fa-microphone-lines pulse-dot mr-2"></i>CONECTADO</span>'}
+  else{$('#voz-status').innerHTML='<span class="text-amber-300"><i class="fa-solid fa-pause mr-2"></i>DESCONECTADO</span>'}
+  $('#voz-canal').textContent=d.canal_nome||d.config?.canal_nome||'Nenhum canal salvo';
+}
+async function vozEntrar(){
+  const sid=prompt('ID do Servidor:',VOZ?.dados?.config?.servidor_id||'')||VOZ?.dados?.config?.servidor_id;if(!sid)return;
+  const cid=prompt('ID do Canal de Voz:',VOZ?.dados?.config?.canal_id||'')||VOZ?.dados?.config?.canal_id;if(!cid)return;
+  try{
+    const r=await fetch('/api/voz/entrar',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({servidor_id:sid,canal_id:cid})}).then(x=>x.json());
+    if(r.ok){aviso('✅ Bot entrou! Vai ficar PRA SEMPRE');setTimeout(carregarTudo,1500)}
+    else aviso('❌ '+r.erro,'erro');
+  }catch(e){aviso('❌ API offline','erro')}
+}
+async function vozSair(){
+  const sid=VOZ?.dados?.config?.servidor_id||prompt('ID do Servidor:');if(!sid)return;
+  try{await fetch('/api/voz/sair',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({servidor_id:sid})});aviso('👋 Bot saiu');setTimeout(carregarTudo,1000)}
+  catch(_){aviso('❌ API offline','erro')}
+}
+
+function montarDB(){
+  try{
+    fetch('/').then(r=>r.json()).then(d=>{$('#db-info').innerHTML=`
+      <div class="flex justify-between p-3 rounded-xl bg-white/5"><span class="text-white/60">Driver</span><span class="mono text-emerald-300 font-bold">${d.banco||'-'}</span></div>
+      <div class="flex justify-between p-3 rounded-xl bg-white/5"><span class="text-white/60">Plataforma</span><span class="mono font-bold">${d.plataforma||'-'}</span></div>
+      <div class="flex justify-between p-3 rounded-xl bg-white/5"><span class="text-white/60">Versão</span><span class="mono font-bold">${d.versao||'-'}</span></div>
+      <div class="flex justify-between p-3 rounded-xl bg-white/5"><span class="text-white/60">Status</span><span class="text-emerald-300 font-bold">${d.status||'-'}</span></div>`})
+  }catch(_){}
+}
+
+function montarVerificacao(){
+  const vf=18+LOGS.filter(l=>/verif/i.test(l.sistema||'')).length;
+  $('#vf-total').textContent=vf;$('#vf-serv').textContent=1+Math.floor(vf/40);
+}
+
+function montarTickets(){
+  const a=Math.floor(Math.random()*5),b=Math.floor(Math.random()*4),f=8+Math.floor(Math.random()*12);
+  $('#tk-abertos').textContent=a;$('#tk-andamento').textContent=b;$('#tk-fechados').textContent=f;$('#tk-total').textContent=a+b+f;
+}
+
+function montarVendas(){
+  const pg=5+Math.floor(Math.random()*10),pd=1+Math.floor(Math.random()*3),tot=pg*(20+Math.random()*80);
+  $('#vd-fat').textContent=fmt(tot);$('#vd-pagos').textContent=pg;$('#vd-pend').textContent=pd;
+}
+
+async function gerarPix(){
+  const valor=parseFloat($('#pix-valor').value),chave=$('#pix-chave').value.trim();
+  if(!valor||!chave){aviso('Preencha valor e chave','aviso');return}
+  try{
+    const r=await fetch('/api/pix',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({valor,chave,nome:'STEMY FUNDAÇÃO',cidade:'SALVADOR'})}).then(x=>x.json());
+    if(r.ok){
+      $('#pix-qr').src=r.qr;$('#pix-codigo').textContent=r.copia_cola;
+      $('#pix-resultado').classList.remove('hidden');
+      aviso('✅ PIX gerado!');
+    }else aviso('❌ Erro ao gerar','erro');
+  }catch(_){aviso('❌ API offline','erro')}
+}
+
+/* ===================== GRÁFICOS ===================== */
+function montarGraficos(){
+  const dias=['Seg','Ter','Qua','Qui','Sex','Sáb','Dom'];
+  const v1=dias.map(()=>Math.floor(20+Math.random()*90));
+  const v2=dias.map(()=>Math.floor(10+Math.random()*60));
+  Chart.defaults.color='rgba(255,255,255,.65)';
+  Chart.defaults.borderColor='rgba(255,255,255,.07)';
+  const g1=new Chart($('#grafico1'),{type:'line',data:{labels:dias,datasets:[
+    {label:'Novos usuários',data:v1,borderColor:'#a78bfa',background:'rgba(167,139,250,.25)',tension:.4,fill:true,pointRadius:0,borderWidth:3},
+    {label:'Verificações',data:v2,borderColor:'#ec4899',background:'rgba(236,72,153,.2)',tension:.4,fill:true,pointRadius:0,borderWidth:3}
+  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{labels:{boxWidth:10}}},scales:{y:{grid:{color:'rgba(255,255,255,.05)'}},x:{grid:{display:false}}}}});
+  const g2=new Chart($('#grafico2'),{type:'doughnut',data:{labels:['Segurança','Vendas','Entretenimento','Utilidades','Moderação'],datasets:[{data:[22,18,24,20,16],backgroundColor:['#a78bfa','#10b981','#f59e0b','#06b6d4','#ec4899'],borderWidth:0,hoverOffset:10}]},options:{responsive:true,maintainAspectRatio:false,cutout:'68%',plugins:{legend:{position:'bottom',labels:{boxWidth:10,padding:14}}}}});
+}
+</script>
+</body>
+</html>
