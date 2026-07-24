@@ -1,0 +1,14 @@
+node_modules/
+package-lock.json
+.data/
+*.db
+*.db-wal
+*.db-shm
+.env
+.env.*
+*.log
+logs/
+.cache/
+.DS_Store
+_instalar.js
+teste_*.js
