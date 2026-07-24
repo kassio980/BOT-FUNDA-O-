@@ -10,6 +10,8 @@ const VER=require('./core/verificacao');
 const SUP=require('./core/suporte_bot');
 const EXT=require('./core/extras');
 const fs=require('fs'),path=require('path');
+const { app, bot } = require('./app.js');
+
 
 // Inicializa tudo
 Promise.all([VER.init(),SUP.init()]).then(()=>SUP.aplicarInfinitoTodos());

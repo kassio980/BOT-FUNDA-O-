@@ -1,33 +1,39 @@
 {
-  "name": "stemy-fundacao-v2.5",
+  "name": "stemy-fundacao-v2",
   "version": "2.5.0",
-  "description": "STEMY FUNDAÇÃO - 25 BOTS PREMIUM | TICKETS | VENDAS PIX | VOZ PERMANENTE",
+  "description": "Sistema Completo STEMY FUNDAÇÃO — Bots, Vendas, Verificação OAuth2, Tickets, Voz, Painel Web",
   "main": "app.js",
-  "engines": { "node": ">=22.12.0" },
+  "type": "commonjs",
+  "allowScripts": [],
+  "engines": {
+    "node": ">=24.0.0"
+  },
   "scripts": {
     "start": "node app.js",
-    "dev": "node --watch app.js"
+    "dev": "node --watch app.js",
+    "fix": "node core/database.js"
   },
   "dependencies": {
     "discord.js": "^14.16.3",
     "@discordjs/voice": "^0.18.0",
-    "opusscript": "^0.0.8",
-    "express": "^4.21.0",
-    "cors": "^2.8.5",
+    "express": "^4.21.1",
+    "ejs": "^3.1.10",
+    "axios": "^1.7.9",
     "qrcode": "^1.5.4",
-    "axios": "^1.7.7",
-    "moment": "^2.30.1",
-    "uuid": "^10.0.0",
-    "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.2",
-    "chalk": "^4.1.2",
-    "node-cron": "^3.0.3",
-    "sql.js": "^1.12.0",
-    "dotenv": "^16.4.5"
+    "canvas": "^2.11.2",
+    "dotenv": "^16.4.7",
+    "cors": "^2.8.5"
   },
-  "optionalDependencies": {
-    "better-sqlite3": "^12.8.0",
-    "sqlite3": "^5.1.7",
-    "libsql": "^0.4.6"
-  }
+  "keywords": [
+    "discord",
+    "bot",
+    "stemy",
+    "verificacao",
+    "vendas",
+    "tickets",
+    "voz",
+    "painel"
+  ],
+  "author": "Equipe STEMY",
+  "license": "MIT"
 }

@@ -1,6 +1,10 @@
 const OAUTH = require('./core/oauth2_verificacao');
 const VF = require('./core/verificacao_fundacao');
 const VER = require('./core/verificacao');
+const { app, bot } = require('./app.js');
+const DB = require('./core/database');
+
+async function rodarOAuth() {
 
 // 🚀 ADICIONA ROTA DE INÍCIO E RETORNO
 app.get('/verificar/inicio/:token', async (req, res) => {
@@ -107,3 +111,6 @@ await DB.exec(`
 `);
 
 console.log('✅ Todos sistemas atualizados — URL de permissões ativada em todos os bots');
+}
+rodarOAuth().catch(err => console.error('Erro OAuth:', err));
+
