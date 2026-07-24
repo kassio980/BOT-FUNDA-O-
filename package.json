@@ -1,12 +1,12 @@
 {
   "name": "stemy-fundacao-v2",
   "version": "2.5.0",
-  "description": "Sistema Completo STEMY FUNDAÇÃO — Bots, Vendas, Verificação OAuth2, Tickets, Voz, Painel Web",
+  "description": "Sistema Completo STEMY FUNDAÇÃO — Bots, Vendas, Verificação OAuth2, Tickets, Voz",
   "main": "app.js",
   "type": "commonjs",
   "allowScripts": [],
   "engines": {
-    "node": ">=24.0.0"
+    "node": "24.18.0"
   },
   "scripts": {
     "start": "node app.js",
@@ -20,7 +20,7 @@
     "ejs": "^3.1.10",
     "axios": "^1.7.9",
     "qrcode": "^1.5.4",
-    "canvas": "^2.11.2",
+    "canvas": "^2.11.3-rc.1",
     "dotenv": "^16.4.7",
     "cors": "^2.8.5"
   },
