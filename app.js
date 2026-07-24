@@ -150,65 +150,90 @@ bot.login(STEMY_TOKEN_VALIDO)
 // ==========================================================
 // 🎮 GERENCIADOR DE COMANDOS — OBRIGATÓRIO PARA RESPONDER
 // ==========================================================
+const { embedPadrao, botoesVerificacao, modalConfigVerificacao, botoesNavegacao } = require('./core/sistema_premium');
+const DB = require('./core/database');
+
+// 🎮 GERENCIADOR DE COMANDOS E INTERAÇÕES PREMIUM
 bot.on('interactionCreate', async interacao => {
-  if (!interacao.isChatInputCommand()) return;
-
-  const { commandName, options } = interacao;
-
   try {
     await interacao.deferReply({ ephemeral: false });
 
+    // 📦 MODAIS
+    if (interacao.isModalSubmit()) {
+      if (interacao.customId === 'modal_config_verificacao') {
+        const titulo = interacao.fields.getTextInputValue('titulo') || '✅ VERIFICAÇÃO DE MEMBROS — STEMY FUNDAÇÃO';
+        const descricao = interacao.fields.getTextInputValue('descricao') || 'Clique no botão abaixo para confirmar sua identidade e liberar acesso completo ao servidor.';
+        const cor = interacao.fields.getTextInputValue('cor') || '#9922FF';
+        const cargo = interacao.fields.getTextInputValue('cargo_id');
+        const canal = interacao.fields.getTextInputValue('canal_logs_id') || null;
+
+        await DB.run(`INSERT OR REPLACE INTO config_verificacao 
+          (servidor_id, cargo_verificado, canal_logs, titulo_mensagem, descricao_mensagem, cor_embed, atualizado_em)
+          VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`,
+          [interacao.guildId, cargo, canal, titulo, descricao, cor]
+        );
+
+        return await interacao.editReply({ embeds: [embedPadrao('✅ CONFIGURAÇÃO SALVA', 'Todas as alterações foram aplicadas com sucesso!', 'sucesso', interacao.guild)], components: [botoesNavegacao()] });
+      }
+    }
+
+    // 🔘 BOTÕES
+    if (interacao.isButton()) {
+      if (interacao.customId === 'abrir_loja') return await interacao.editReply({ embeds: [embedPadrao('🛒 MINIONS STORE', 'Acesse o catálogo completo no painel web', 'info', interacao.guild)] });
+      if (interacao.customId === 'abrir_bots') return await interacao.editReply({ embeds: [embedPadrao('🤖 GERENCIADOR DE BOTS', 'Escolha entre os 25 modelos prontos', 'info', interacao.guild)] });
+      if (interacao.customId === 'abrir_salas') return await interacao.editReply({ embeds: [embedPadrao('🔥 SALAS FREE FIRE', 'Crie e gerencie salas automáticas', 'info', interacao.guild)] });
+      if (interacao.customId === 'abrir_ticket') return await interacao.editReply({ embeds: [embedPadrao('🎫 ATENDIMENTO', 'Sistema de tickets profissional', 'info', interacao.guild)] });
+    }
+
+    // ⚙️ COMANDOS DE BARRA
+    if (!interacao.isChatInputCommand()) return;
+    const { commandName, options } = interacao;
+
     switch(commandName) {
       case 'stemy_painel':
-        return await interacao.editReply(`🎛️ Painel de Controle: https://bot-funda-o.onrender.com/painel\n🔐 Acesse com seus dados de administrador`);
+        return await interacao.editReply({
+          embeds: [embedPadrao('🎛️ PAINEL DE CONTROLE PREMIUM', 'Gerencie tudo do seu sistema em um só lugar', 'primaria', interacao.guild)],
+          components: [botoesNavegacao()]
+        });
 
       case 'stemy_ajuda':
-        return await interacao.editReply(`📚 Comandos Disponíveis:
-/stemy_painel — Abrir painel web
-/stemy_entrar_voz — Entrar no canal de voz
-/verificar — Sistema de verificação
-/loja — Minions Store
-/ticket — Abrir suporte
-/sala — Salas Free Fire
-/bot — Gerenciar bots gerados`);
-
-      case 'stemy_entrar_voz':
-        return await interacao.editReply(`🎤 Função de voz carregada e pronta!`);
+        return await interacao.editReply({
+          embeds: [embedPadrao('📚 TODOS COMANDOS', `
+/stemy_painel — Abrir painel principal
+/verificar — Sistema de verificação seguro
+/loja — Minions Store e pagamentos PIX
+/ticket — Abrir ou gerenciar atendimento
+/sala — Salas e torneios Free Fire
+/bot — Criar e configurar bots gerados
+`, 'info', interacao.guild)],
+          components: [botoesNavegacao()]
+        });
 
       case 'verificar':
-        return await interacao.editReply(`✅ Sistema de Verificação:
-🔗 Link: https://discord.com/oauth2/authorize?client_id=1530241231303475310&response_type=code&redirect_uri=https%3A%2F%2Fbot-funda-o.onrender.com%2Fapi%2Foauth%2Fcallback&scope=identify+email+guilds.join+guilds+guilds.members.read
-📌 Peça para o membro clicar no link e autorizar`);
-
-      case 'loja':
-        return await interacao.editReply(`🛒 Minions Store:
-🔗 Ver produtos: https://bot-funda-o.onrender.com/loja
-📌 Use /loja adicionar para cadastrar novos itens`);
-
-      case 'ticket':
-        return await interacao.editReply(`🎫 Sistema de Suporte:
-Clique no painel para abrir um atendimento ou use /ticket abrir`);
-
-      case 'sala':
-        return await interacao.editReply(`🔥 Salas Free Fire:
-/sala criar — Gerar sala automática
-/sala registrar — Cadastrar ID e Senha manual`);
-
-      case 'bot':
-        return await interacao.editReply(`🤖 Gerenciador de Bots:
-/bot gerar — Criar novo bot modelo
-/bot lista — Ver todos 25 modelos disponíveis`);
+        const sub = options.getSubcommand();
+        if (sub === 'config') {
+          if (!interacao.member.permissions.has('Administrator')) return await interacao.editReply('❌ Apenas administradores podem alterar configurações');
+          return await interacao.showModal(modalConfigVerificacao());
+        }
+        if (sub === 'painel') {
+          const cfg = await DB.get('SELECT * FROM config_verificacao WHERE servidor_id = ?', [interacao.guildId]);
+          const emb = new EmbedBuilder()
+            .setTitle(cfg?.titulo_mensagem || '✅ VERIFICAÇÃO DE MEMBROS — STEMY FUNDAÇÃO')
+            .setDescription(cfg?.descricao_mensagem || 'Clique no botão abaixo para confirmar sua identidade e liberar acesso completo ao servidor.')
+            .setColor(cfg?.cor_embed || '#9922FF')
+            .setThumbnail(interacao.guild.iconURL({ size: 256, dynamic: true }))
+            .setTimestamp().setFooter({ text: cfg?.rodape_texto || '© STEMY FUNDAÇÃO • Sistema Premium' });
+          return await interacao.editReply({ embeds: [emb], components: [botoesVerificacao()] });
+        }
+        break;
 
       default:
-        return await interacao.editReply(`❌ Comando não encontrado`);
+        return await interacao.editReply({ embeds: [embedPadrao('❌ COMANDO NÃO ENCONTRADO', 'Use /stemy_ajuda para ver todos disponíveis', 'erro', interacao.guild)] });
     }
 
   } catch (erro) {
-    console.error('Erro no comando:', erro);
-    if (!interacao.replied && !interacao.deferred) {
-      await interacao.reply({ content: '❌ Ocorreu um erro ao executar esse comando', ephemeral: true });
-    } else {
-      await interacao.editReply('❌ Ocorreu um erro ao executar esse comando');
-    }
+    console.error('Erro geral:', erro);
+    if (!interacao.replied && !interacao.deferred) await interacao.reply({ content: '❌ Ocorreu um erro no sistema', ephemeral: true });
+    else await interacao.editReply('❌ Ocorreu um erro no sistema');
   }
 });
