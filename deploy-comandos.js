@@ -1,8 +1,8 @@
 const { REST, Routes } = require('discord.js');
-require('dotenv').config();
-
+require('dotenv').config();                                            
 const CLIENT_ID = process.env.DISCORD_CLIENT_ID?.trim();
-const TOKEN_BOT = process.env.STEMY_TOKEN?.trim();
+const TOKEN_BOT = process.env.STEMY_TOKEN?.trim();                     
+const ID_SERVIDOR = '1505876225946812440';
 
 if (!CLIENT_ID || CLIENT_ID.length < 17) throw new Error('CLIENT_ID INVÁLIDO');
 if (!TOKEN_BOT || TOKEN_BOT.length < 50) throw new Error('STEMY_TOKEN INVÁLIDO');
@@ -19,17 +19,17 @@ const comandos = [
   { name: 'sala', description: 'Gerenciar salas Free Fire' },
   { name: 'bot', description: 'Criar ou gerenciar bots gerados' }
 ];
-
+                                                                      
 (async () => {
-  try {
-    console.log(`🔄 Registrando para App: ${CLIENT_ID}`);
+  try {                                                                   
+    console.log(`🔄 Registrando no Servidor: ${ID_SERVIDOR} | App: ${CLIENT_ID}`);
     await rest.put(
-      Routes.applicationCommands(CLIENT_ID),
+      Routes.applicationGuildCommands(CLIENT_ID, ID_SERVIDOR),
       { body: comandos }
     );
     console.log('✅ TODOS OS COMANDOS REGISTRADOS COM SUCESSO!');
-    console.log('⏳ Até 2 minutos para aparecer no Discord');
+    console.log('⏳ Já aparecem em até 30 segundos no Discord');
   } catch (erro) {
     console.error('❌ ERRO:', erro);
-  }
+  }                                                                   
 })();
