@@ -130,21 +130,19 @@ bot.login(process.env.STEMY_TOKEN?.trim() || ""?.trim() || "")
 .then(()=>log('BOT','✅','Login feito com sucesso!','','SUCESSO'))
 .catch(e=>log('BOT','❌','Login:',e.message,'','ERRO'));
 // === VERIFICAÇÃO OBRIGATÓRIA DO TOKEN ===
-const TOKEN_BOT = process.env.STEMY_TOKEN?.trim() || ""?.trim();
-if (!TOKEN_BOT || TOKEN_BOT.length < 50) {
-  log('BOT','❌','ERRO: TOKEN NÃO ENCONTRADO OU INVÁLIDO NO .env','','ERRO');
-  console.log('🔍 Valor lido:', JSON.stringify(TOKEN_BOT));
-  process.exit(1);
 }
-console.log('🔑 Token carregado, tamanho:', TOKEN_BOT.length);
 // === VERIFICAÇÃO OBRIGATÓRIA DO TOKEN ===
-const TOKEN_BOT = process.env.STEMY_TOKEN?.trim();
-if (!TOKEN_BOT || TOKEN_BOT.length < 50) {
+}
+
+// === VERIFICAÇÃO OBRIGATÓRIA DO TOKEN ===
+const STEMY_TOKEN_VALIDO = process.env.STEMY_TOKEN?.trim();
+if (!STEMY_TOKEN_VALIDO || STEMY_TOKEN_VALIDO.length < 50) {
   log('BOT','❌','ERRO: STEMY_TOKEN NÃO ENCONTRADO OU INVÁLIDO','','ERRO');
-  console.log('🔍 Tamanho do valor recebido:', TOKEN_BOT ? TOKEN_BOT.length : 'VAZIO');
+  console.log('🔍 Tamanho recebido:', STEMY_TOKEN_VALIDO ? STEMY_TOKEN_VALIDO.length : 'VAZIO');
   process.exit(1);
 }
-console.log('🔑 Token carregado com sucesso, tamanho:', TOKEN_BOT.length);
-bot.login(TOKEN_BOT)
+console.log('🔑 Token carregado, tamanho:', STEMY_TOKEN_VALIDO.length);
+
+bot.login(STEMY_TOKEN_VALIDO)
 .then(()=>log('BOT','✅','Login feito com sucesso!','','SUCESSO'))
 .catch(e=>log('BOT','❌','Falha no Login:', e.message,'','ERRO'));
