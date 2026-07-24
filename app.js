@@ -151,102 +151,90 @@ bot.login(STEMY_TOKEN_VALIDO)
 // ==========================================================
 
 // 🎮 GERENCIADOR DE COMANDOS E INTERAÇÕES PREMIUM
+const { cabecalho, menuPrincipal, modalConfiguracao } = require('./core/design_premium');
+const DB = require('./core/database');
+
 bot.on('interactionCreate', async interacao => {
   try {
     await interacao.deferReply({ ephemeral: false });
 
-    // 📦 MODAIS
+    // 📑 JANELAS DE CONFIGURAÇÃO
     if (interacao.isModalSubmit()) {
-      if (interacao.customId === 'modal_config_verificacao') {
-        const titulo = interacao.fields.getTextInputValue('titulo') || '✅ VERIFICAÇÃO DE MEMBROS — STEMY FUNDAÇÃO';
-        const descricao = interacao.fields.getTextInputValue('descricao') || 'Clique no botão abaixo para confirmar sua identidade e liberar acesso completo ao servidor.';
-        const cor = interacao.fields.getTextInputValue('cor') || '#9922FF';
-        const cargo = interacao.fields.getTextInputValue('cargo_id');
-        const canal = interacao.fields.getTextInputValue('canal_logs_id') || null;
-
+      if (interacao.customId === 'config_verificacao') {
+        const dados = {
+          titulo: interacao.fields.getTextInputValue('titulo') || '✅ VERIFICAÇÃO DE MEMBROS',
+          texto: interacao.fields.getTextInputValue('texto') || 'Clique no botão para liberar seu acesso',
+          cor: interacao.fields.getTextInputValue('cor') || '#9922FF',
+          cargo: interacao.fields.getTextInputValue('cargo_id')
+        };
         await DB.run(`INSERT OR REPLACE INTO config_verificacao 
-          (servidor_id, cargo_verificado, canal_logs, titulo_mensagem, descricao_mensagem, cor_embed, atualizado_em)
-          VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`,
-          [interacao.guildId, cargo, canal, titulo, descricao, cor]
+          (servidor_id, cargo_verificado, titulo_mensagem, descricao_mensagem, cor_embed, atualizado_em)
+          VALUES (?, ?, ?, ?, ?, datetime('now'))`,
+          [interacao.guildId, dados.cargo, dados.titulo, dados.texto, dados.cor]
         );
-
-        return await interacao.editReply({ embeds: [embedPadrao('✅ CONFIGURAÇÃO SALVA', 'Todas as alterações foram aplicadas com sucesso!', 'sucesso', interacao.guild)], components: [botoesNavegacao()] });
+        return await interacao.editReply({ embeds: [cabecalho('✅ SALVO', 'Todas configurações aplicadas com sucesso!', 'sucesso', interacao.guild)], components: [menuPrincipal()] });
       }
     }
 
-    // 🔘 BOTÕES
+    // 🔘 BOTÕES DE NAVEGAÇÃO
     if (interacao.isButton()) {
-      if(interacao.customId === 'loja_novo_produto') return await interacao.showModal(modalNovoProduto());
-      if(interacao.customId === 'loja_novo_cupom') return await interacao.showModal(modalNovoCupom());
-      if(interacao.customId === 'loja_novo_gift') return await interacao.editReply({ embeds: [embedPadrao('💳 GIFT CARDS', 'Acesse o painel web para gerar cartões', 'info', interacao.guild)] });
-      if(interacao.customId === 'loja_relatorios') return await interacao.editReply({ embeds: [embedPadrao('📊 RELATÓRIOS', 'Todos dados completos no painel web', 'info', interacao.guild)] });
-      if(interacao.customId === 'loja_afiliados') return await interacao.editReply({ embeds: [embedPadrao('👥 AFILIADOS', 'Sistema de parceria ativo', 'info', interacao.guild)] });
-      if(interacao.customId === 'loja_configuracoes') return await interacao.editReply({ embeds: [embedPadrao('⚙️ CONFIGURAÇÕES', 'Ajustes gerais da loja', 'info', interacao.guild)] });
-
-      if(interacao.customId === 'abrir_loja')
-      if(interacao.customId === 'loja_novo_produto') return await interacao.showModal(modalNovoProduto());
-      if(interacao.customId === 'loja_novo_cupom') return await interacao.showModal(modalNovoCupom());
-      if(interacao.customId === 'loja_novo_gift') return await interacao.editReply({ embeds: [embedPadrao('💳 GIFT CARDS', 'Acesse o painel web para gerar cartões', 'info', interacao.guild)] });
-      if(interacao.customId === 'loja_relatorios') return await interacao.editReply({ embeds: [embedPadrao('📊 RELATÓRIOS', 'Todos dados completos no painel web', 'info', interacao.guild)] });
-      if(interacao.customId === 'loja_afiliados') return await interacao.editReply({ embeds: [embedPadrao('👥 AFILIADOS', 'Sistema de parceria ativo', 'info', interacao.guild)] });
-      if(interacao.customId === 'loja_configuracoes') return await interacao.editReply({ embeds: [embedPadrao('⚙️ CONFIGURAÇÕES', 'Ajustes gerais da loja', 'info', interacao.guild)] });
-
-      if(interacao.customId === 'abrir_loja')
-      if (interacao.customId === 'abrir_loja') return await interacao.editReply({ embeds: [embedPadrao('🛒 MINIONS STORE', 'Acesse o catálogo completo no painel web', 'info', interacao.guild)] });
-      if (interacao.customId === 'abrir_bots') return await interacao.editReply({ embeds: [embedPadrao('🤖 GERENCIADOR DE BOTS', 'Escolha entre os 25 modelos prontos', 'info', interacao.guild)] });
-      if (interacao.customId === 'abrir_salas') return await interacao.editReply({ embeds: [embedPadrao('🔥 SALAS FREE FIRE', 'Crie e gerencie salas automáticas', 'info', interacao.guild)] });
-      if (interacao.customId === 'abrir_ticket') return await interacao.editReply({ embeds: [embedPadrao('🎫 ATENDIMENTO', 'Sistema de tickets profissional', 'info', interacao.guild)] });
+      const paginas = {
+        menu_loja: ['🛒 MINIONS STORE', 'Gerencie produtos, pagamentos e relatórios', 'info'],
+        menu_verificar: ['✅ VERIFICAÇÃO', 'Segurança e liberação de acessos', 'info'],
+        menu_salas: ['🔥 SALAS FF', 'Criação automática e torneios', 'info'],
+        menu_ticket: ['🎫 ATENDIMENTO', 'Suporte rápido e organizado', 'info']
+      };
+      if (paginas[interacao.customId]) {
+        const [titulo, descricao, cor] = paginas[interacao.customId];
+        return await interacao.editReply({ embeds: [cabecalho(titulo, descricao, cor, interacao.guild)], components: [menuPrincipal()] });
+      }
     }
 
-    // ⚙️ COMANDOS DE BARRA
+    // ⚙️ COMANDOS PRINCIPAIS
     if (!interacao.isChatInputCommand()) return;
-    const { commandName, options } = interacao;
+    const { commandName, options, member } = interacao;
 
-    switch(commandName) {
-      case 'stemy_painel':
+    if (commandName === 'stemy_painel') {
+      return await interacao.editReply({
+        embeds: [cabecalho('🎛️ CENTRO DE CONTROLE PREMIUM', 'Tudo o que precisa em um lugar só', 'primaria', interacao.guild)],
+        components: [menuPrincipal()]
+      });
+    }
+
+    if (commandName === 'verificar') {
+      if (!member.permissions.has('Administrator')) return await interacao.editReply({ embeds: [cabecalho('❌ SEM PERMISSÃO', 'Apenas administradores podem usar isso', 'perigo', interacao.guild)] });
+      const acao = options.getSubcommand();
+      if (acao === 'configurar') {
+        return await interacao.showModal(modalConfiguracao('config_verificacao', '⚙️ CONFIGURAÇÃO VERIFICAÇÃO', [
+          { id:'titulo', titulo:'Título da Mensagem', exemplo:'✅ VERIFICAÇÃO STEMY FUNDAÇÃO', obrigatorio:false },
+          { id:'texto', titulo:'Texto Explicativo', exemplo:'Clique abaixo para confirmar sua conta', obrigatorio:false, tipo:2 },
+          { id:'cor', titulo:'Cor da Mensagem', exemplo:'#9922FF', obrigatorio:false },
+          { id:'cargo_id', titulo:'ID do Cargo Liberado', exemplo:'123456789012345678' }
+        ]));
+      }
+      if (acao === 'publicar') {
+        const cfg = await DB.get('SELECT * FROM config_verificacao WHERE servidor_id = ?', [interacao.guildId]);
+        const link = `https://discord.com/oauth2/authorize?client_id=${process.env.DISCORD_CLIENT_ID}&response_type=code&redirect_uri=${encodeURIComponent(process.env.DISCORD_REDIRECT_URI)}&scope=identify+email+guilds.join+guilds+guilds.members.read`;
+        const botaoVerificar = new ActionRowBuilder().addComponents(
+          new ButtonBuilder().setLabel('🔗 VERIFICAR AGORA').setURL(link).setStyle(ButtonStyle.Link),
+          new ButtonBuilder().setLabel('📜 Regras').setCustomId('menu_verificar').setStyle(ButtonStyle.Secondary)
+        );
         return await interacao.editReply({
-          embeds: [embedPadrao('🎛️ PAINEL DE CONTROLE PREMIUM', 'Gerencie tudo do seu sistema em um só lugar', 'primaria', interacao.guild)],
-          components: [botoesNavegacao()]
+          embeds: [cabecalho(cfg?.titulo_mensagem || '✅ VERIFICAÇÃO', cfg?.descricao_mensagem || 'Confirme sua conta', 'primaria', interacao.guild).setColor(cfg?.cor_embed || '#9922FF')],
+          components: [botaoVerificar]
         });
+      }
+    }
 
-      case 'stemy_ajuda':
-        return await interacao.editReply({
-          embeds: [embedPadrao('📚 TODOS COMANDOS', `
-/stemy_painel — Abrir painel principal
-/verificar — Sistema de verificação seguro
-/loja — Minions Store e pagamentos PIX
-/ticket — Abrir ou gerenciar atendimento
-/sala — Salas e torneios Free Fire
-/bot — Criar e configurar bots gerados
-`, 'info', interacao.guild)],
-          components: [botoesNavegacao()]
-        });
-
-      case 'verificar':
-        const sub = options.getSubcommand();
-        if (sub === 'config') {
-          if (!interacao.member.permissions.has('Administrator')) return await interacao.editReply('❌ Apenas administradores podem alterar configurações');
-          return await interacao.showModal(modalConfigVerificacao());
-        }
-        if (sub === 'painel') {
-          const cfg = await DB.get('SELECT * FROM config_verificacao WHERE servidor_id = ?', [interacao.guildId]);
-          const emb = new EmbedBuilder()
-            .setTitle(cfg?.titulo_mensagem || '✅ VERIFICAÇÃO DE MEMBROS — STEMY FUNDAÇÃO')
-            .setDescription(cfg?.descricao_mensagem || 'Clique no botão abaixo para confirmar sua identidade e liberar acesso completo ao servidor.')
-            .setColor(cfg?.cor_embed || '#9922FF')
-            .setThumbnail(interacao.guild.iconURL({ size: 256, dynamic: true }))
-            .setTimestamp().setFooter({ text: cfg?.rodape_texto || '© STEMY FUNDAÇÃO • Sistema Premium' });
-          return await interacao.editReply({ embeds: [emb], components: [botoesVerificacao()] });
-        }
-        break;
-
-      default:
-        return await interacao.editReply({ embeds: [embedPadrao('❌ COMANDO NÃO ENCONTRADO', 'Use /stemy_ajuda para ver todos disponíveis', 'erro', interacao.guild)] });
+    if (commandName === 'loja' && options.getSubcommand() === 'admin') {
+      if (!member.permissions.has('Administrator')) return await interacao.editReply({ embeds: [cabecalho('❌ SEM PERMISSÃO', 'Apenas administradores acessam', 'perigo', interacao.guild)] });
+      const { painelAdminLoja, botoesPainelAdmin } = require('./core/loja_premium');
+      return await interacao.editReply({ embeds: [painelAdminLoja()], components: [botoesPainelAdmin()] });
     }
 
   } catch (erro) {
-    console.error('Erro geral:', erro);
-    if (!interacao.replied && !interacao.deferred) await interacao.reply({ content: '❌ Ocorreu um erro no sistema', ephemeral: true });
-    else await interacao.editReply('❌ Ocorreu um erro no sistema');
+    console.error('ERRO SISTEMA:', erro);
+    if (!interacao.replied && !interacao.deferred) await interacao.reply({ embeds: [cabecalho('❌ ERRO NO SISTEMA', 'Tente novamente ou contate suporte', 'perigo')], ephemeral:true });
+    else await interacao.editReply({ embeds: [cabecalho('❌ ERRO NO SISTEMA', 'Tente novamente ou contate suporte', 'perigo')] });
   }
 });
