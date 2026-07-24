@@ -16,7 +16,6 @@ app.use(cors({ origin: '*' }));
 app.use(express.json({ limit: '100mb' }));
 app.use(express.urlencoded({ extended: true, limit: '100mb' }));
 
-const DB = require('./core/database');
 const VOZ = require('./voz_permanente');
 log('SISTEMA', '🗄️ Banco:', DB.getDriver(), '', 'SUCESSO');
 
@@ -150,8 +149,6 @@ bot.login(STEMY_TOKEN_VALIDO)
 // ==========================================================
 // 🎮 GERENCIADOR DE COMANDOS — OBRIGATÓRIO PARA RESPONDER
 // ==========================================================
-const { embedPadrao, botoesVerificacao, modalConfigVerificacao, botoesNavegacao } = require('./core/sistema_premium');
-const DB = require('./core/database');
 
 // 🎮 GERENCIADOR DE COMANDOS E INTERAÇÕES PREMIUM
 bot.on('interactionCreate', async interacao => {
@@ -179,6 +176,14 @@ bot.on('interactionCreate', async interacao => {
 
     // 🔘 BOTÕES
     if (interacao.isButton()) {
+      if(interacao.customId === 'loja_novo_produto') return await interacao.showModal(modalNovoProduto());
+      if(interacao.customId === 'loja_novo_cupom') return await interacao.showModal(modalNovoCupom());
+      if(interacao.customId === 'loja_novo_gift') return await interacao.editReply({ embeds: [embedPadrao('💳 GIFT CARDS', 'Acesse o painel web para gerar cartões', 'info', interacao.guild)] });
+      if(interacao.customId === 'loja_relatorios') return await interacao.editReply({ embeds: [embedPadrao('📊 RELATÓRIOS', 'Todos dados completos no painel web', 'info', interacao.guild)] });
+      if(interacao.customId === 'loja_afiliados') return await interacao.editReply({ embeds: [embedPadrao('👥 AFILIADOS', 'Sistema de parceria ativo', 'info', interacao.guild)] });
+      if(interacao.customId === 'loja_configuracoes') return await interacao.editReply({ embeds: [embedPadrao('⚙️ CONFIGURAÇÕES', 'Ajustes gerais da loja', 'info', interacao.guild)] });
+
+      if(interacao.customId === 'abrir_loja')
       if (interacao.customId === 'abrir_loja') return await interacao.editReply({ embeds: [embedPadrao('🛒 MINIONS STORE', 'Acesse o catálogo completo no painel web', 'info', interacao.guild)] });
       if (interacao.customId === 'abrir_bots') return await interacao.editReply({ embeds: [embedPadrao('🤖 GERENCIADOR DE BOTS', 'Escolha entre os 25 modelos prontos', 'info', interacao.guild)] });
       if (interacao.customId === 'abrir_salas') return await interacao.editReply({ embeds: [embedPadrao('🔥 SALAS FREE FIRE', 'Crie e gerencie salas automáticas', 'info', interacao.guild)] });
