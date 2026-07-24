@@ -184,6 +184,14 @@ bot.on('interactionCreate', async interacao => {
       if(interacao.customId === 'loja_configuracoes') return await interacao.editReply({ embeds: [embedPadrao('⚙️ CONFIGURAÇÕES', 'Ajustes gerais da loja', 'info', interacao.guild)] });
 
       if(interacao.customId === 'abrir_loja')
+      if(interacao.customId === 'loja_novo_produto') return await interacao.showModal(modalNovoProduto());
+      if(interacao.customId === 'loja_novo_cupom') return await interacao.showModal(modalNovoCupom());
+      if(interacao.customId === 'loja_novo_gift') return await interacao.editReply({ embeds: [embedPadrao('💳 GIFT CARDS', 'Acesse o painel web para gerar cartões', 'info', interacao.guild)] });
+      if(interacao.customId === 'loja_relatorios') return await interacao.editReply({ embeds: [embedPadrao('📊 RELATÓRIOS', 'Todos dados completos no painel web', 'info', interacao.guild)] });
+      if(interacao.customId === 'loja_afiliados') return await interacao.editReply({ embeds: [embedPadrao('👥 AFILIADOS', 'Sistema de parceria ativo', 'info', interacao.guild)] });
+      if(interacao.customId === 'loja_configuracoes') return await interacao.editReply({ embeds: [embedPadrao('⚙️ CONFIGURAÇÕES', 'Ajustes gerais da loja', 'info', interacao.guild)] });
+
+      if(interacao.customId === 'abrir_loja')
       if (interacao.customId === 'abrir_loja') return await interacao.editReply({ embeds: [embedPadrao('🛒 MINIONS STORE', 'Acesse o catálogo completo no painel web', 'info', interacao.guild)] });
       if (interacao.customId === 'abrir_bots') return await interacao.editReply({ embeds: [embedPadrao('🤖 GERENCIADOR DE BOTS', 'Escolha entre os 25 modelos prontos', 'info', interacao.guild)] });
       if (interacao.customId === 'abrir_salas') return await interacao.editReply({ embeds: [embedPadrao('🔥 SALAS FREE FIRE', 'Crie e gerencie salas automáticas', 'info', interacao.guild)] });

@@ -18,6 +18,8 @@ const comandos = [
   { name: 'loja', description: '🛒 Minions Store — Produtos e Pagamentos', options: [
     { type:1, name:'paineladmin', description:'⚙️ Painel de controle completo da loja' }
   ]},
+    { type:1, name:'paineladmin', description:'⚙️ Painel de controle completo da loja' }
+  ]},
   { name: 'ticket', description: '🎫 Suporte e Atendimento' },
   { name: 'sala', description: '🔥 Salas e Torneios Free Fire' },
   { name: 'bot", description: "🤖 Gerenciar e Criar Bots Gerados' }
