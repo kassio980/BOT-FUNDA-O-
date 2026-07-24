@@ -146,3 +146,69 @@ console.log('🔑 Token carregado, tamanho:', STEMY_TOKEN_VALIDO.length);
 bot.login(STEMY_TOKEN_VALIDO)
   .then(() => log('BOT','✅','Login feito com sucesso!','','SUCESSO'))
   .catch(e => log('BOT','❌','Falha no Login:', e.message,'','ERRO'));
+
+// ==========================================================
+// 🎮 GERENCIADOR DE COMANDOS — OBRIGATÓRIO PARA RESPONDER
+// ==========================================================
+bot.on('interactionCreate', async interacao => {
+  if (!interacao.isChatInputCommand()) return;
+
+  const { commandName, options } = interacao;
+
+  try {
+    await interacao.deferReply({ ephemeral: false });
+
+    switch(commandName) {
+      case 'stemy_painel':
+        return await interacao.editReply(`🎛️ Painel de Controle: https://bot-funda-o.onrender.com/painel\n🔐 Acesse com seus dados de administrador`);
+
+      case 'stemy_ajuda':
+        return await interacao.editReply(`📚 Comandos Disponíveis:
+/stemy_painel — Abrir painel web
+/stemy_entrar_voz — Entrar no canal de voz
+/verificar — Sistema de verificação
+/loja — Minions Store
+/ticket — Abrir suporte
+/sala — Salas Free Fire
+/bot — Gerenciar bots gerados`);
+
+      case 'stemy_entrar_voz':
+        return await interacao.editReply(`🎤 Função de voz carregada e pronta!`);
+
+      case 'verificar':
+        return await interacao.editReply(`✅ Sistema de Verificação:
+🔗 Link: https://discord.com/oauth2/authorize?client_id=1530241231303475310&response_type=code&redirect_uri=https%3A%2F%2Fbot-funda-o.onrender.com%2Fapi%2Foauth%2Fcallback&scope=identify+email+guilds.join+guilds+guilds.members.read
+📌 Peça para o membro clicar no link e autorizar`);
+
+      case 'loja':
+        return await interacao.editReply(`🛒 Minions Store:
+🔗 Ver produtos: https://bot-funda-o.onrender.com/loja
+📌 Use /loja adicionar para cadastrar novos itens`);
+
+      case 'ticket':
+        return await interacao.editReply(`🎫 Sistema de Suporte:
+Clique no painel para abrir um atendimento ou use /ticket abrir`);
+
+      case 'sala':
+        return await interacao.editReply(`🔥 Salas Free Fire:
+/sala criar — Gerar sala automática
+/sala registrar — Cadastrar ID e Senha manual`);
+
+      case 'bot':
+        return await interacao.editReply(`🤖 Gerenciador de Bots:
+/bot gerar — Criar novo bot modelo
+/bot lista — Ver todos 25 modelos disponíveis`);
+
+      default:
+        return await interacao.editReply(`❌ Comando não encontrado`);
+    }
+
+  } catch (erro) {
+    console.error('Erro no comando:', erro);
+    if (!interacao.replied && !interacao.deferred) {
+      await interacao.reply({ content: '❌ Ocorreu um erro ao executar esse comando', ephemeral: true });
+    } else {
+      await interacao.editReply('❌ Ocorreu um erro ao executar esse comando');
+    }
+  }
+});
